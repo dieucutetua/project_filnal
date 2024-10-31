@@ -39,8 +39,8 @@ async def getname_image():
     names =[]
     for result in results:
         for detection in result.boxes:
-            class_id = int(detection.cls)  # Lấy chỉ số lớp của đối tượng
-            class_name = model.names[class_id]  # Ánh xạ qua model.names để lấy tên lớp
+            class_id = int(detection.cls) 
+            class_name = model.names[class_id]  
             names.append(class_name)
     return {"detected_items": list(set(names))}
 
@@ -54,7 +54,7 @@ async def getname_image():
 #     names =[]
 #     for result in results:
 #         for detection in result.boxes:
-#             class_id = int(detection.cls)  # Lấy chỉ số lớp của đối tượng
-#             class_name = model.names[class_id]  # Ánh xạ qua model.names để lấy tên lớp
+#             class_id = int(detection.cls)  
+#             class_name = model.names[class_id]  
 #             names.append(class_name)
 #     return {"detected_items": list(set(names))}
