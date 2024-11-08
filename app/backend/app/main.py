@@ -58,3 +58,27 @@ async def getname_image():
 #             class_name = model.names[class_id]  
 #             names.append(class_name)
 #     return {"detected_items": list(set(names))}
+
+
+#id_user
+# @app.post("/")
+# async def upload_image(
+#     files: list[UploadFile] = File(...),
+#     user: dict = Depends(get_current_user)
+# ):
+#     user_id = user["user_id"]
+#     user_folder = os.path.join(UPLOAD_FOLDER, user_id)
+#     os.makedirs(user_folder, exist_ok=True)
+    
+#     uploaded_files = []
+    
+#     for file in files:
+#         image_data = await file.read()
+#         image_stream = io.BytesIO(image_data)
+#         image = Image.open(image_stream)
+        
+#         file_path = os.path.join(user_folder, file.filename)
+#         image.save(file_path)
+#         uploaded_files.append(file.filename)
+        
+#     return {"info": f"Files saved for user '{user_id}'", "files": uploaded_files}
