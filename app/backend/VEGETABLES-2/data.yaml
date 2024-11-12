@@ -1,0 +1,48 @@
+names:
+- banh mi
+- bap cai
+- bap cai ngot
+- bi dao
+- bi ngo
+- bo
+- bong cai xanh
+- ca chua
+- ca rot
+- ca tim
+- cai bap
+- can tay
+- chan gio
+- chuoi
+- cu cai duong
+- cu hanh
+- cu toi
+- dau
+- dau Ha Lan
+- dau ha lan
+- dau van
+- dua
+- dua chuot
+- khoai tay
+- ngu coc
+- nho
+- ot cay
+- ot chuong
+- sua
+- sup lo
+- tao
+- than bit tet
+- thit mieng
+- thit than
+- toi
+- trung
+- xa lach
+nc: 37
+roboflow:
+  license: CC BY 4.0
+  project: vegetables-2mlqo
+  url: https://universe.roboflow.com/ltd/vegetables-2mlqo/dataset/2
+  version: 2
+  workspace: ltd
+test: ../test/images
+train: VEGETABLES-2/train/images
+val: VEGETABLES-2/valid/images
