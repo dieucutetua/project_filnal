@@ -1,11 +1,11 @@
 from datetime import datetime
 from pydantic import BaseModel
-class Image(BaseModel):
-    image_id: str
+class Recog(BaseModel):
+    recog_id: str
     user_id: str  # Liên kết đến user
-    image_path: str
-    upload_time: datetime
-    detected_items:str
+    list_name: str
+    creat_at :datetime
+    upload_at: datetime
 
     class Config:
         orm_mode = True

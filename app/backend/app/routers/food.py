@@ -10,7 +10,7 @@ from datetime import datetime
 import imghdr
 from fastapi import FastAPI, HTTPException
 from models.modelUser import UserCreate, UserLogin, User
-from crud import create_user, get_user_by_email, verify_password
+from crud import create_user, get_user_by_email, verify_password,save_image_info_to_db,save_recog_to_db
 
 router = APIRouter()
 
@@ -31,7 +31,7 @@ async def upload_image(files: list[UploadFile] = File(...)):
 
     upload_images_file = []
     names = []
-
+    user_id =[]
     for file in files:
         image_data = await file.read()
         image_stream = io.BytesIO(image_data)
@@ -52,8 +52,10 @@ async def upload_image(files: list[UploadFile] = File(...)):
             for detection in result.boxes:
                 class_id = int(detection.cls)
                 class_name = model.names[class_id]
+                await save_image_info_to_db(file.filename, user_id, file_path, list(set(class_name)))
                 names.append(class_name)
 
+        await save_recog_to_db(user_id,list(set(names)),datetime.now())
    
     return {"info": f"Files saved at '{time_folder}'", "detected_items": list(set(names))}
     

@@ -1,6 +1,6 @@
 # crud.py
 from passlib.context import CryptContext
-from database import users_collection
+from database import users_collection,images_collection,recog_collection
 from schemas import UserCreate
 from fastapi import HTTPException
 from hashlib import sha256
@@ -42,3 +42,30 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 async def get_user_by_email(email: str):
     user = await users_collection.find_one({"email": email})
     return user
+
+
+
+
+
+
+async def save_image_info_to_db(image_id, user_id, image_path, detected_items):
+    image_doc = {
+        "image_id": image_id,
+        "user_id": user_id,
+        "image_path": image_path,
+        "upload_time": datetime.now(),
+        "detected_items": detected_items
+    }
+    await images_collection.insert_one(image_doc)
+async def save_recog_to_db(user_id, list_name, update_at):
+    if update_at is None:
+        update_at = datetime.now()
+    recog_doc = {
+   
+        "user_id": user_id,
+        "list_name": list_name,
+        "create_at": datetime.now(),
+        "update_at": update_at
+    }
+       # Lưu tài liệu vào MongoDB
+    await recog_collection.insert_one(recog_doc)
