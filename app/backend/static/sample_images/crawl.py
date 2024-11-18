@@ -8,9 +8,11 @@
 
 # !pip install roboflow
 
+# !pip install roboflow
+
 from roboflow import Roboflow
 rf = Roboflow(api_key="MLlGMOfNaHlUhVNNMpWG")
 project = rf.workspace("ltd").project("vegetables-2mlqo")
-version = project.version(2)
+version = project.version(3)
 dataset = version.download("yolov8")
                 

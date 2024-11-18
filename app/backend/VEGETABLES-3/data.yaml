@@ -1,0 +1,46 @@
+names:
+- apple
+- avocado
+- bap cai
+- bean
+- beef tenderloin steak
+- bell pepper
+- bread
+- broccoli
+- ca rot
+- cabbage
+- cauliflower
+- celery
+- cereal
+- chuoi
+- cucumber
+- egg
+- eggplant
+- filet
+- garlic
+- grape
+- ham hock
+- hot pepper
+- meat pieces
+- milk
+- oil
+- onion
+- peas
+- pineapple
+- potato
+- pumpkin
+- salad
+- squash
+- sugar beet
+- sweet cabbage
+- tomato
+nc: 35
+roboflow:
+  license: CC BY 4.0
+  project: vegetables-2mlqo
+  url: https://universe.roboflow.com/ltd/vegetables-2mlqo/dataset/3
+  version: 3
+  workspace: ltd
+test: ../test/images
+train: VEGETABLES-3/train/images
+val: VEGETABLES-3/valid/images
