@@ -1,5 +1,8 @@
 from fastapi import APIRouter
 
+
+from googletrans import Translator
+
 from fastapi import FastAPI, UploadFile, File
 import os
 from ultralytics import YOLO
@@ -55,6 +58,14 @@ async def upload_image(files: list[UploadFile] = File(...)):
                 await save_image_info_to_db(file.filename, user_id, file_path, list(set(class_name)))
                 names.append(class_name)
 
+        # Danh sách từ tiếng Anh
+        english_list = names
+
+        # Khởi tạo Translator
+        translator = Translator()
+
+        # Dịch từng từ trong danh sách sang tiếng Việt
+        vietnamese_list = [translator.translate(word, src='en', dest='vi').text for word in english_list]
         await save_recog_to_db(user_id,list(set(names)),datetime.now())
    
     return {"info": f"Files saved at '{time_folder}'", "detected_items": list(set(names))}
