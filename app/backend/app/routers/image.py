@@ -3,29 +3,70 @@ from datetime import datetime
 from PIL import Image
 import io
 import imghdr
-from crud import save_image_info_to_db
+from cruds.image import save_image_info_to_db
+from fastapi.responses import FileResponse
+from fastapi import APIRouter,HTTPException
+from database import images_collection
+from typing import List
+from models.modelImage import Image_DB
+from cruds.image import delete_image_from_db
+from pathlib import Path
+import os
 
-UPLOAD_FOLDER = "path/to/your/upload/folder"
 
-async def save_file(file, upload_folder):
-    # Đọc dữ liệu từ file upload
-    image_data = await file.read()
-    image_stream = io.BytesIO(image_data)
+router = APIRouter()
 
-    # Kiểm tra nếu tệp là ảnh hợp lệ
-    if not imghdr.what(image_stream):
-        raise ValueError(f"{file.filename} is not a valid image file.")
 
-    # Đặt tên thư mục lưu trữ theo thời gian hiện tại
-    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    time_folder = os.path.join(upload_folder, current_time)
-    os.makedirs(time_folder, exist_ok=True)
 
-    # Lưu file
-    file_path = os.path.join(time_folder, file.filename)
-    image = Image.open(image_stream)
-    image.save(file_path)
 
-    # Lưu thông tin vào MongoDB
-    await save_image_info_to_db(file.filename, user_id, file_path, list(set(detected_names)))
-    return file_path
+
+# API lấy tất cả ảnh của user_id
+@router.get("/images/user/{user_id}", response_model=List[Image_DB])
+async def get_images_by_user(user_id: str):
+    # Tìm tất cả ảnh của user_id trong cơ sở dữ liệu
+    images_cursor = images_collection.find({"user_id": user_id})
+    
+     # Chuyển đổi AsyncIOMotorCursor thành danh sách
+    images = await images_cursor.to_list(length=None)  # length=None lấy toàn bộ kết quả
+    if not images:
+        raise HTTPException(status_code=404, detail="No images found for this user.")
+    
+    # Chuyển các ảnh thành danh sách và trả về
+    return [
+        Image_DB(
+            image_id=image["image_id"],
+            user_id=image["user_id"],
+            image_path=image["image_path"],
+            upload_time=image["upload_time"],
+            detected_items=image["detected_items"]
+        )
+        for image in images
+    ]
+
+
+
+UPLOAD_FOLDER = "path/to/your/upload/folder"  # Đường dẫn đến thư mục lưu ảnh
+
+# Hàm để xóa một hình ảnh từ cơ sở dữ liệu và hệ thống tệp
+@router.delete("/images/delete/{image_id}")
+async def delete_image(image_id: str):
+    try:
+        # Tìm hình ảnh trong cơ sở dữ liệu
+        image = await delete_image_from_db(image_id)
+        
+        if not image:
+            raise HTTPException(status_code=404, detail="Image not found")
+        
+        # Lấy đường dẫn tệp từ hình ảnh trong cơ sở dữ liệu
+        image_path = image['image_path']
+        
+        # Xóa tệp hình ảnh khỏi hệ thống tệp
+        if os.path.exists(image_path):
+            os.remove(image_path)
+        else:
+            raise HTTPException(status_code=404, detail="Image file not found in the system")
+
+        return {"message": f"Image with ID {image_id} has been deleted successfully."}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred while deleting the image: {str(e)}")

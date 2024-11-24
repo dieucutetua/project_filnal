@@ -1,12 +1,13 @@
 from fastapi import FastAPI
-from routers import user, food, suggestions
+from routers import user, food, suggestions,image
 
 app = FastAPI()
 
 # Kết nối các router
-app.include_router(user.router)
-app.include_router(food.router)
-app.include_router(suggestions.router)
+app.include_router(user.router, prefix="/users", tags=["users"])
+app.include_router(food.router, prefix="/food", tags=["food"])
+app.include_router(suggestions.router, prefix="/suggestions", tags=["suggestions"])
+app.include_router(image.router, prefix="/image", tags=["image"])
 
 # @app.get("/")
 # async def root():

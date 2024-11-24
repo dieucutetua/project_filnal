@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 
 
-from googletrans import Translator
+
+from deep_translator import GoogleTranslator
 
 from fastapi import FastAPI, UploadFile, File
 import os
@@ -13,7 +14,7 @@ from datetime import datetime
 import imghdr
 from fastapi import FastAPI, HTTPException
 from models.modelUser import UserCreate, UserLogin, User
-from crud import create_user, get_user_by_email, verify_password,save_image_info_to_db,save_recog_to_db
+from cruds.image import save_image_info_to_db,save_recog_to_db
 
 router = APIRouter()
 
@@ -21,7 +22,7 @@ router = APIRouter()
 UPLOAD_FOLDER = "uploads/images"
 
 # model = YOLO('D:/DATN/Source_project/app/backend/models/best_model.pt') 
-model = YOLO("D:/DATN/Source_project/app/backend/models/best_model.pt")  # Hoặc "last.pt" nếu bạn muốn dùng trọng số từ epoch cuối
+model = YOLO("D:/DATN/Source_project/app/backend/models/best_6.pt")  # Hoặc "last.pt" nếu bạn muốn dùng trọng số từ epoch cuối
 # model.eval()
 
 @router.post("/")
@@ -49,24 +50,30 @@ async def upload_image(files: list[UploadFile] = File(...)):
         image.save(file_path)
         upload_images_file.append(file.filename)
 
-     
+        user_id = "6733072618fc68cc71acdf87"
         results = model(file_path)  #  model.predict(file_path) n
         for result in results:
             for detection in result.boxes:
                 class_id = int(detection.cls)
                 class_name = model.names[class_id]
-                await save_image_info_to_db(file.filename, user_id, file_path, list(set(class_name)))
-                names.append(class_name)
 
-        # Danh sách từ tiếng Anh
-        english_list = names
+                names.append(class_name)
+         # Danh sách từ tiếng Anh
+        english_list = list(set(names))
 
         # Khởi tạo Translator
-        translator = Translator()
+        # translator = Translator()
+        translator = GoogleTranslator(source="en", target="vi")
 
         # Dịch từng từ trong danh sách sang tiếng Việt
-        vietnamese_list = [translator.translate(word, src='en', dest='vi').text for word in english_list]
-        await save_recog_to_db(user_id,list(set(names)),datetime.now())
+        
+        # Dịch từng từ trong danh sách sang tiếng Việt
+        vietnamese_list = [translator.translate(word) for word in english_list]
+        await save_image_info_to_db(file.filename, user_id, file_path, vietnamese_list)
+
+       
+
+        await save_recog_to_db(user_id,vietnamese_list,datetime.now())
    
-    return {"info": f"Files saved at '{time_folder}'", "detected_items": list(set(names))}
+    return {"info": f"Files saved at '{time_folder}'", "detected_items": vietnamese_list}
     

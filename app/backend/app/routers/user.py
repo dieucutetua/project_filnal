@@ -5,7 +5,7 @@ from hashlib import sha256
 from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from models.modelUser import UserCreate, UserLogin, User
-from crud import create_user, get_user_by_email, verify_password
+from cruds.user import create_user, get_user_by_email, verify_password
 
 router = APIRouter()
 # Dang ki
