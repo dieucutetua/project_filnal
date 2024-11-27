@@ -4,7 +4,7 @@ from fastapi import APIRouter
 
 from deep_translator import GoogleTranslator
 
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 import os
 from ultralytics import YOLO
 from PIL import Image
@@ -26,7 +26,7 @@ model = YOLO("D:/DATN/Source_project/app/backend/models/best_6.pt")  # Hoặc "l
 # model.eval()
 
 @router.post("/")
-async def upload_image(files: list[UploadFile] = File(...)):
+async def upload_image(files: list[UploadFile] = File(...), user_id: str = Form(...)):
 
     # Lấy thời gian hiện tại để tạo thư mục riêng cho lần upload này
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -35,7 +35,6 @@ async def upload_image(files: list[UploadFile] = File(...)):
 
     upload_images_file = []
     names = []
-    user_id =[]
     for file in files:
         image_data = await file.read()
         image_stream = io.BytesIO(image_data)
@@ -50,7 +49,7 @@ async def upload_image(files: list[UploadFile] = File(...)):
         image.save(file_path)
         upload_images_file.append(file.filename)
 
-        user_id = "6733072618fc68cc71acdf87"
+        
         results = model(file_path)  #  model.predict(file_path) n
         for result in results:
             for detection in result.boxes:

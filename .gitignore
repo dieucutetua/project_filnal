@@ -1,6 +1,6 @@
-<<<<<<< HEAD
+
 .env
-=======
+
 # Ignore environment files
 app/backend/.env
->>>>>>> 92d9f5bf (update)
+

@@ -2,6 +2,16 @@ from fastapi import FastAPI
 from routers import user, food, suggestions,image
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
+
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
+
+UPLOAD_FOLDER = "uploads/images"
+
+# Cấu hình FastAPI để phục vụ tệp từ thư mục uploads
+app.mount("/uploads/images", StaticFiles(directory=UPLOAD_FOLDER), name="uploads")
+
 # Cấu hình CORS toàn cục
 origins = [
     "http://localhost:3000",  # Địa chỉ frontend React
