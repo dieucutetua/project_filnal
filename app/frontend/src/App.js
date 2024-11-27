@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Recognize from "./pages/Recognize";
@@ -10,18 +10,20 @@ import LogoutButton from "./components/Logout";
 import "./App.css";
 
 const App = () => {
+  // Kiểm tra trạng thái đăng nhập
+  const isLoggedIn = localStorage.getItem("user_id"); // Kiểm tra user_id trong localStorage
 
   return (
     <Router>
-      <div className="dashboard">
-        <Routes>
-          {/* Route Login sẽ hiển thị ngay khi ứng dụng bắt đầu */}
-          <Route path="/login" element={<LoginSignUpForm />} />
+      <Routes>
+        {/* Route dành cho đăng nhập */}
+        <Route path="/login" element={<LoginSignUpForm />} />
 
-          {/* Route chính chỉ hiển thị khi người dùng đã đăng nhập */}
-          <Route
-            path="*"
-            element={
+        {/* Route chính chỉ hiển thị khi người dùng đã đăng nhập */}
+        <Route
+          path="*"
+          element={
+            isLoggedIn ? (
               <div className="dashboard">
                 <Sidebar />
                 <div className="main">
@@ -31,18 +33,17 @@ const App = () => {
                     <Route path="/histories" element={<Histories />} />
                     <Route path="/favorite-food" element={<FavoriteFood />} />
                     <Route path="/account" element={<Accounts />} />
-                    {/* Thêm LogoutButton ở bất kỳ đâu trong các trang bên dưới */}
                   </Routes>
-                  <LogoutButton />
+
                 </div>
               </div>
-              ) : (
-          // Nếu chưa đăng nhập, chuyển hướng đến trang login
-          <Navigate to="/login" />
-            }
-          />
-        </Routes>
-      </div>
+            ) : (
+              // Nếu chưa đăng nhập, chuyển hướng tới trang login
+              <Navigate to="/login" />
+            )
+          }
+        />
+      </Routes>
     </Router>
   );
 };

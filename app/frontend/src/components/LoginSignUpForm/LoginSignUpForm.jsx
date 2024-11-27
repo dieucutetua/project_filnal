@@ -32,6 +32,9 @@ const LoginSignUpForm = () => {
       if (response.data.user_id) {
         localStorage.setItem("user_id", response.data.user_id); // Lưu user_id
       }
+      if (response.data.email) {
+        localStorage.setItem("email", response.data.email); // Lưu user_id
+      }
 
       // Điều hướng đến trang nhận diện sau khi login thành công
       navigate("/recognize"); // Điều hướng tới trang nhận diện
