@@ -1,7 +1,21 @@
 from fastapi import FastAPI
 from routers import user, food, suggestions,image
-
+from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
+# Cấu hình CORS toàn cục
+origins = [
+    "http://localhost:3000",  # Địa chỉ frontend React
+    # "https://yourfrontenddomain.com",  # Thêm domain khác nếu có
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Kết nối các router
 app.include_router(user.router, prefix="/users", tags=["users"])
