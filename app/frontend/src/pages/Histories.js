@@ -7,6 +7,8 @@ const Histories = ({ }) => {
   const [error, setError] = useState(null);
   // Lấy user_id từ localStorage
   const user_id = localStorage.getItem('user_id');
+  const email = localStorage.getItem('email');
+
   console.log("User ID:", user_id);  // Kiểm tra user_id
   useEffect(() => {
 
@@ -47,7 +49,7 @@ const Histories = ({ }) => {
 
   return (
     <div>
-      <h3>Danh sách ảnh của người dùng {user_id}</h3>
+      <h3>Danh sách ảnh của người dùng {email}</h3>
       <div className="image-list">
         {images.length === 0 ? (
           <p>Không có ảnh nào.</p>

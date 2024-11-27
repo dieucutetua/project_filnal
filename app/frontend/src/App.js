@@ -1,50 +1,56 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider } from "./AuthContext";
 import Sidebar from "./components/Sidebar";
 import Recognize from "./pages/Recognize";
 import FavoriteFood from "./pages/FavouriteFood";
 import Histories from "./pages/Histories";
 import Accounts from "./pages/Accounts";
-import LoginSignUpForm from "./components/LoginSignUpForm/LoginSignUpForm";
-import LogoutButton from "./components/Logout";
+import LoginForm from "./pages/LoginForm";
+import SignUpForm from "./pages/SignUpForm";
 import "./App.css";
 
 const App = () => {
-
   return (
-    <Router>
-      <div className="dashboard">
+    <AuthProvider>
+      <Router>
         <Routes>
-          {/* Route Login sẽ hiển thị ngay khi ứng dụng bắt đầu */}
-          <Route path="/login" element={<LoginSignUpForm />} />
-
-          {/* Route chính chỉ hiển thị khi người dùng đã đăng nhập */}
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<SignUpForm />} />
           <Route
             path="*"
             element={
-              <div className="dashboard">
-                <Sidebar />
-                <div className="main">
-                  <Routes>
-                    <Route path="/" element={<Navigate to="/recognize" />} />
-                    <Route path="/recognize" element={<Recognize />} />
-                    <Route path="/histories" element={<Histories />} />
-                    <Route path="/favorite-food" element={<FavoriteFood />} />
-                    <Route path="/account" element={<Accounts />} />
-                    {/* Thêm LogoutButton ở bất kỳ đâu trong các trang bên dưới */}
-                  </Routes>
-                  <LogoutButton />
+              <PrivateRoute>
+                <div className="dashboard">
+                  <Sidebar />
+                  <div className="main">
+                    <Routes>
+                      <Route path="/" element={<Navigate to="/recognize" />} />
+                      <Route path="/recognize" element={<Recognize />} />
+                      <Route path="/histories" element={<Histories />} />
+                      <Route path="/favorite-food" element={<FavoriteFood />} />
+                      <Route path="/account" element={<Accounts />} />
+                    </Routes>
+                  </div>
                 </div>
-              </div>
-              ) : (
-          // Nếu chưa đăng nhập, chuyển hướng đến trang login
-          <Navigate to="/login" />
+              </PrivateRoute>
             }
           />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
+};
+
+// PrivateRoute Component
+const PrivateRoute = ({ children }) => {
+  const { isLoggedIn } = React.useContext(AuthContext);
+  return isLoggedIn ? children : <Navigate to="/login" />;
 };
 
 export default App;
