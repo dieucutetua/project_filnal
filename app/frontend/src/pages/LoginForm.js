@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { message } from "antd";
 import axiosInstance from "../utils/axiosInstance";
+import { AuthContext } from "../common/AuthContext";
 
 const LoginForm = () => {
   const sizeIcon = 25;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -28,6 +30,7 @@ const LoginForm = () => {
       if (response.data.email) {
         localStorage.setItem("email", response.data.email);
       }
+      login();
       navigate("/recognize");
     } catch (error) {
       message.error("Login failt!");

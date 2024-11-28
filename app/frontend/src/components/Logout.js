@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 const LogoutButton = () => {
   const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("user_id");
-    localStorage.removeItem("email");
+  const handleLogout = async () => {
+    await localStorage.removeItem("user_id");
+    await localStorage.removeItem("email");
     navigate("/login");
+    logout();
   };
 
   return (
