@@ -5,7 +5,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { AuthProvider } from "./AuthContext";
 import Sidebar from "./components/Sidebar";
 import Recognize from "./pages/Recognize";
 import FavoriteFood from "./pages/FavouriteFood";
@@ -14,6 +13,7 @@ import Accounts from "./pages/Accounts";
 import LoginForm from "./pages/LoginForm";
 import SignUpForm from "./pages/SignUpForm";
 import "./App.css";
+import { AuthContext, AuthProvider } from "./common/AuthContext";
 
 const App = () => {
   return (

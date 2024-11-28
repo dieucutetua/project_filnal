@@ -23,14 +23,14 @@ const SignUpForm = () => {
         email,
         password,
       });
-      if (response.data.length > 0) {
+      if (response.status === 200) {
+        message.success("Sign up success!");
         navigate("/login");
       }
+      console.log(response);
     } catch (error) {
       message.error("Sign up fail!");
       console.error("Sign up error", error);
-    } finally {
-      message.success("Sign up success!");
     }
   };
 
@@ -60,7 +60,7 @@ const SignUpForm = () => {
             <input
               type="text"
               placeholder="Username"
-              value={password}
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>

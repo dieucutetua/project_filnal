@@ -23,20 +23,21 @@ const LoginForm = () => {
         email,
         password,
       });
+      if (response.status === 200) {
+        if (response.data.user_id) {
+          localStorage.setItem("user_id", response.data.user_id);
+        }
+        if (response.data.email) {
+          localStorage.setItem("email", response.data.email);
+        }
+        login();
+        message.success("Login success!");
+        navigate("/recognize");
+      }
       console.log("Login successful", response);
-      if (response.data.user_id) {
-        localStorage.setItem("user_id", response.data.user_id);
-      }
-      if (response.data.email) {
-        localStorage.setItem("email", response.data.email);
-      }
-      login();
-      navigate("/recognize");
     } catch (error) {
       message.error("Login failt!");
       console.error("Login error", error);
-    } finally {
-      message.success("Login success!");
     }
   };
 

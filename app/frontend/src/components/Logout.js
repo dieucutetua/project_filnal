@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../common/AuthContext";
 
 const LogoutButton = () => {
   const navigate = useNavigate();
+  const context = useContext(AuthContext)
+  const { logout } = context;
   const handleLogout = async () => {
     await localStorage.removeItem("user_id");
     await localStorage.removeItem("email");

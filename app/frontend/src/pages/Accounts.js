@@ -7,7 +7,7 @@ const Accounts = () => {
         <div>
             <h1>Accounts {email}</h1>
             <p>Welcome to the Accounts Food page.</p>
-            {/* <Logout /> */}
+            <Logout />
         </div>
     );
 };
