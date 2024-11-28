@@ -1,25 +1,28 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Recognize from "./pages/Recognize";
 import FavoriteFood from "./pages/FavouriteFood";
 import Histories from "./pages/Histories";
 import Accounts from "./pages/Accounts";
-import LoginSignUpForm from "./components/LoginSignUpForm/LoginSignUpForm";
-import LogoutButton from "./components/Logout";
+import LoginForm from "./pages/LoginForm";
 import "./App.css";
+import SignUpForm from "./pages/SignUpForm";
 
 const App = () => {
-  // Kiểm tra trạng thái đăng nhập
-  const isLoggedIn = localStorage.getItem("user_id"); // Kiểm tra user_id trong localStorage
+  const isLoggedIn = localStorage.getItem("user_id");
 
   return (
     <Router>
       <Routes>
-        {/* Route dành cho đăng nhập */}
-        <Route path="/login" element={<LoginSignUpForm />} />
+        <Route path="/login" element={<LoginForm />} />
 
-        {/* Route chính chỉ hiển thị khi người dùng đã đăng nhập */}
+        <Route path="/register" element={<SignUpForm />} />
         <Route
           path="*"
           element={
@@ -34,11 +37,9 @@ const App = () => {
                     <Route path="/favorite-food" element={<FavoriteFood />} />
                     <Route path="/account" element={<Accounts />} />
                   </Routes>
-
                 </div>
               </div>
             ) : (
-              // Nếu chưa đăng nhập, chuyển hướng tới trang login
               <Navigate to="/login" />
             )
           }

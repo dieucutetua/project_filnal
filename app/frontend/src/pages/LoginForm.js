@@ -1,40 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { MdEmail } from "react-icons/md";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { message } from "antd";
+import axiosInstance from "../utils/axiosInstance";
 
-function LoginForm({ onLogin }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const LoginForm = () => {
+  const sizeIcon = 25;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onLogin(email, password);
+  const handleLogin = async () => {
+    if (!email || !password) {
+      message.error("Email and password are required.");
+      return;
+    }
+    try {
+      const response = await axiosInstance.post("users/login/", {
+        email,
+        password,
+      });
+      console.log("Login successful", response);
+      if (response.data.user_id) {
+        localStorage.setItem("user_id", response.data.user_id);
+      }
+      if (response.data.email) {
+        localStorage.setItem("email", response.data.email);
+      }
+      navigate("/recognize");
+    } catch (error) {
+      message.error("Login failt!");
+      console.error("Login error", error);
+    } finally {
+      message.success("Login success!");
+    }
+  };
+
+  const handleClickToRegister = () => {
+    navigate("/register");
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="container-login-form">
+      <div className="container-login">
+        <div className="header">
+          <div className="text">Login</div>
+          <div className="underline"></div>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <div className="inputs">
+          <div className="input">
+            <MdEmail size={sizeIcon} />
+            <input
+              type="email"
+              placeholder="Email Id"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="input">
+            <RiLockPasswordLine size={sizeIcon} />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
         </div>
-        <button type="submit">Login</button>
-      </form>
+        <button className="submit" onClick={handleLogin}>
+          Login
+        </button>
+        <div className="register-text">
+          <p>You don't have an account yet?</p>
+          <a className="register-link" onClick={handleClickToRegister}>
+            Register
+          </a>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default LoginForm;
