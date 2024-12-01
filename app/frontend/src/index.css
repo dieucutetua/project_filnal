@@ -17,40 +17,60 @@ code {
 }
 
 .container-login {
-  width: 50%; /* Tương đương w-full */
-  height: 100%; /* Tương đương h-full */
-  display: flex; /* Tương đương flex */
-  flex-direction: column; /* Tương đương flex-col */
-  align-items: center; /* Tương đương items-center */
-  justify-content: center; /* Tương đương justify-center */
+  width: 50%;
+  /* Tương đương w-full */
+  height: 100%;
+  /* Tương đương h-full */
+  display: flex;
+  /* Tương đương flex */
+  flex-direction: column;
+  /* Tương đương flex-col */
+  align-items: center;
+  /* Tương đương items-center */
+  justify-content: center;
+  /* Tương đương justify-center */
   gap: 1rem;
 }
 
 .container-login-form {
-  width: 100%; /* Tương đương w-full */
-  height: 100%; /* Tương đương h-full */
-  display: flex; /* Tương đương flex */
-  flex-direction: column; /* Tương đương flex-col */
-  align-items: center; /* Tương đương items-center */
-  justify-content: center; /* Tương đương justify-center */
+  width: 100%;
+  /* Tương đương w-full */
+  height: 100%;
+  /* Tương đương h-full */
+  display: flex;
+  /* Tương đương flex */
+  flex-direction: column;
+  /* Tương đương flex-col */
+  align-items: center;
+  /* Tương đương items-center */
+  justify-content: center;
+  /* Tương đương justify-center */
   gap: 1rem;
 }
 
 .register-text {
-  display: flex; /* Tương đương flex */
-  gap: 0.5rem; /* Tương đương gap-2 (8px) */
-  justify-content: center; /* Tương đương justify-center */
-  align-items: center; /* Tương đương items-center */
+  display: flex;
+  /* Tương đương flex */
+  gap: 0.5rem;
+  /* Tương đương gap-2 (8px) */
+  justify-content: center;
+  /* Tương đương justify-center */
+  align-items: center;
+  /* Tương đương items-center */
 }
 
 .register-link {
-  color: #2563eb; /* Tương đương text-blue-600 */
-  cursor: pointer; /* Tương đương cursor-pointer */
-  text-decoration: none; /* Đảm bảo link không có gạch chân mặc định */
+  color: #2563eb;
+  /* Tương đương text-blue-600 */
+  cursor: pointer;
+  /* Tương đương cursor-pointer */
+  text-decoration: none;
+  /* Đảm bảo link không có gạch chân mặc định */
 }
 
 .register-link:hover {
-  text-decoration: underline; /* Tạo hiệu ứng hover nếu cần */
+  text-decoration: underline;
+  /* Tạo hiệu ứng hover nếu cần */
 }
 
 .container {
@@ -149,4 +169,21 @@ code {
 .gray {
   background: #eaeaea;
   color: #676767;
+}
+
+.custom-box-upload-file {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed black;
+  border-radius: 6px;
+  height: 140px;
+  width: 140px;
+}
+
+.custom-box-upload-file:hover {
+  border-color: steelblue;
+  color: steelblue;
+  cursor: pointer;
 }

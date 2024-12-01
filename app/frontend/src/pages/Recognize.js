@@ -1,119 +1,145 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { GoPlus } from "react-icons/go";
+import { Button, message } from "antd";
+import { MdDelete } from "react-icons/md";
+import axiosInstance from "../utils/axiosInstance";
 
 const Recognize = () => {
-    const user_id = localStorage.getItem('user_id');
-    const [images, setImages] = useState([]); // Lưu trữ ảnh đã chọn
     const [image_db, setImage_db] = useState([]); // Lưu trữ ảnh đã chọn
-    const [message, setMessage] = useState(""); // Thông báo kết quả upload
     const [isUploading, setIsUploading] = useState(false); // Trạng thái upload ảnh
-    const [uploadedFiles, setUploadedFiles] = useState([]); // Lưu trữ tên file đã upload
+    const [fileUpload, setFileUpload] = useState("")
+    const [fileUploadReplace, setFileUploadReplace] = useState("")
+    const [resultsUploadFile,setResultsUploadFile]  = useState("")
+    const userID = localStorage.getItem("user_id");
 
-    // Hàm xử lý thay đổi khi người dùng chọn file ảnh
-    const handleImageChange = (e) => {
-        const files = e.target.files;
-        if (files && files.length > 0) {
-            setImages(files); // Lưu trữ nhiều ảnh (nếu có)
+    const handleOnChangeUploadFile = (event) => {
+        if(event &&event.target && event.target.files && event.target.files.length>0){
+            setFileUpload((prev) => {
+                if(prev.length>0){
+                    return [...prev, ...event.target.files]
+                }
+                return [...event.target.files]
+            })
         }
-    };
+    }
 
-    // Hàm gửi ảnh lên API
+    const handleDeleteFileUpload = (nameFile) => {
+        setFileUpload((prev) => {
+            const newListFile = prev.filter((file) => file.name !== nameFile)
+            return newListFile
+        })
+    }
+
     const handleUpload = async () => {
-        if (images.length === 0) {
-            setMessage("Please select images first.");
+        if (fileUpload.length === 0) {
+            message.error("Please select images first.");
             return;
         }
-
-        // Tạo FormData để gửi ảnh
         const formData = new FormData();
-        Array.from(images).forEach((image) => {
-            formData.append("files", image); // Gửi mỗi ảnh vào FormData
+        Array.from(fileUpload).forEach((image) => {
+            formData.append("files", image); 
         });
-        // Thêm user_id vào FormData
-        const user_id = localStorage.getItem("user_id");
-        if (user_id) {
-            formData.append("user_id", user_id);
+        if (userID) {
+            formData.append("user_id", userID);
         } else {
-            setMessage("User ID is missing.");
+            message.error("User ID is missing.");
             return;
         }
-
-        setIsUploading(true); // Bắt đầu quá trình tải lên
-
+        setIsUploading(true);
         try {
-            const response = await axios.post("http://127.0.0.1:8000/food/", formData, {
+            const response = await axiosInstance.post("food/", formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data", // Đảm bảo gửi dữ liệu dưới dạng form-data
+                    "Content-Type": "multipart/form-data", 
                 },
             });
-
-            // Xử lý khi upload thành công
-            setMessage(response.data.info || "Files uploaded successfully!");
-            setUploadedFiles(response.data.file_names || []); // Lưu trữ tên các file đã upload
-            console.log("Upload successful:", response.data);
-
-            if (response.data.file_names) {
-                localStorage.setItem("file_names", response.data.file_names);
-                localStorage.setItem("image_id", response.data.image_id);
+            console.log(response);
+            
+            if(response.status === 200){
+                setFileUpload("")
+                setResultsUploadFile([...response.data.detected_items])
+                setFileUploadReplace(fileUpload)
+                message.success("Upload file success!")
             }
         } catch (error) {
-            // Xử lý khi upload thất bại
-            setMessage("Image upload failed. Please try again.");
+            message.error("Upload file failt!")
             console.error("Upload error:", error);
         } finally {
-            setIsUploading(false); // Kết thúc quá trình tải lên
+            setIsUploading(false);
         }
     };
+
     const fetchImages = async () => {
         const image_id = localStorage.getItem("image_id");
         if (!image_id) {
-            setMessage("Hãy upload image !");
             return;
         }
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/image/user/${user_id}/${image_id}`);
-            setImage_db(response.data); // Cập nhật state với dữ liệu ảnh từ server
+            const response = await axios.get(`http://127.0.0.1:8000/image/user/${userID}/${image_id}`);
+            setImage_db(response.data);
             console.log("image_db", response.data);
         } catch (err) {
             console.error("Không thể tải ảnh đã upload");
-            setMessage("Không thể tải ảnh ");
         }
     };
 
-
     return (
-        <div>
-            <h1>Upload Images</h1>
-            <div>
+        <div className="p-8 flex flex-col gap-2">
+            <h1 className="text-xl font-medium">Upload Images</h1>
+            <div className="flex flex-col gap-3">
+                <div className="flex gap-2">
+                {fileUpload && fileUpload.length>0 &&fileUpload.map((file, index) => {
+                    return(
+                    <div className="custom-box-upload-file relative group" key={index}>
+                        <div className="rounded-full text-red-500 group-hover:opacity-100 opacity-0 right-2 top-2 absolute"
+                        onClick={()=>handleDeleteFileUpload(file.name)}>
+                            <MdDelete  size={25}/>
+                        </div>
+                        <img src={URL.createObjectURL(file)} alt="upload-image" className="w-[140px] h-fit"/>
+                    </div>
+                    )
+                })
+                    }
                 <input
                     type="file"
-                    accept="image/*" // Chỉ cho phép chọn ảnh
-                    onChange={handleImageChange} // Gọi hàm khi người dùng chọn ảnh
-                    multiple // Cho phép chọn nhiều ảnh
+                    accept="image/*"
+                    onChange={handleOnChangeUploadFile}                    
+                    id="upload-file"
+                    className="hidden"
+                    multiple
                 />
-                <button
+                <label htmlFor="upload-file" className="custom-box-upload-file">
+                    Select File
+                    <GoPlus />
+                </label>
+                </div>
+                <Button
+                    style={{width: "100px"}}
+                    type="primary"
                     onClick={handleUpload}
-                    disabled={isUploading} // Disable nút khi đang upload
+                    disabled={isUploading}
                 >
                     {isUploading ? "Uploading..." : "Upload"}
-                </button>
+                </Button>
             </div>
-            {message && <p>{message}</p>}
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "20px" }}>
-
-                {image_db.length === 0 ? (
-                    <p>Không có ảnh nào !</p>
-                ) : (
-                    image_db.map(image => (
-                        <div key={image.image_path} className="image-item">
-                            <img src={`http://127.0.0.1:8000/${image.image_path}`} alt={`Image ${image.image_id}`} width="200" />
-                            <p>Thời gian tải lên: {new Date(image.upload_time).toLocaleString()}</p>
-                            <p>Đã nhận diện: {image.detected_items.join(", ")}</p>
-                        </div>
-                    ))
-                )}
-            </div>
+            <div className="flex gap-2">
+            {fileUploadReplace.length > 0 && fileUploadReplace.map((file, index) => {
+                return(
+                    <div className="custom-box-upload-file" key={index}>
+                        <img src={URL.createObjectURL(file)} alt="upload-image" className="w-[140px] h-fit"/>
+                    </div>
+                )
+            })}</div>
+            <div className="flex gap-2">{resultsUploadFile.length>0 && 
+            resultsUploadFile.map((result, index) => {
+                return(
+                <div className="w-[140px]" key={index}>
+                    <p>{result}</p>
+                </div>
+                )
+            })
+           }</div>
+           
         </div>
 
     );
