@@ -5,8 +5,8 @@ const Accounts = () => {
     const email = localStorage.getItem('email');
     return (
         <div>
-            <h1>Accounts {email}</h1>
-            <p>Welcome to the Accounts Food page.</p>
+            <h1>Tài khoản {email}</h1>
+            <p>Quản lí thông tin người dùng</p>
             <Logout />
         </div>
     );

@@ -85,7 +85,7 @@ const Recognize = () => {
 
     return (
         <div className="p-8 flex flex-col gap-2">
-            <h1 className="text-xl font-medium">Upload Images</h1>
+            <h1 className="text-xl font-medium">Ảnh cần nhận diện</h1>
             <div className="flex flex-col gap-3">
                 <div className="flex gap-2">
                 {fileUpload && fileUpload.length>0 &&fileUpload.map((file, index) => {
@@ -109,7 +109,7 @@ const Recognize = () => {
                     multiple
                 />
                 <label htmlFor="upload-file" className="custom-box-upload-file">
-                    Select File
+                    Chọn ảnh
                     <GoPlus />
                 </label>
                 </div>
@@ -119,7 +119,7 @@ const Recognize = () => {
                     onClick={handleUpload}
                     disabled={isUploading}
                 >
-                    {isUploading ? "Uploading..." : "Upload"}
+                    {isUploading ? "Uploading..." : "Thêm ảnh"}
                 </Button>
             </div>
             <div className="flex gap-2">

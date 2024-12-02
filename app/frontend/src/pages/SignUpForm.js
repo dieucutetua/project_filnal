@@ -47,21 +47,21 @@ const SignUpForm = () => {
         </div>
         <div className="inputs">
           <div className="input">
-            <MdEmail size={sizeIcon} />
-            <input
-              type="email"
-              placeholder="Email Id"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="input">
             <CiUser size={sizeIcon} />
             <input
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="input">
+            <MdEmail size={sizeIcon} />
+            <input
+              type="email"
+              placeholder="Email Id"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="input">

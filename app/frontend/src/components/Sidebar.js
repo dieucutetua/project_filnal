@@ -6,36 +6,36 @@ import { FaCamera, FaHistory, FaHeart, FaUser, FaHome } from "react-icons/fa"; /
 const Sidebar = () => {
     return (
         <aside className="sidebar">
-            <h2>Dashboard</h2>
+            <h2>Website</h2>
             <ul>
                 <li>
                     <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
                         <FaHome className="icon" />
-                        <span>Home</span>
+                        <span>Trang chủ</span>
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/recognize" className={({ isActive }) => (isActive ? "active" : "")}>
                         <FaCamera className="icon" />
-                        <span>Recognize</span>
+                        <span>Nhận diện</span>
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/histories" className={({ isActive }) => (isActive ? "active" : "")}>
                         <FaHistory className="icon" />
-                        <span>Histories</span>
+                        <span>Lịch sử</span>
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/favourite_food" className={({ isActive }) => (isActive ? "active" : "")}>
                         <FaHeart className="icon" />
-                        <span>Favourite Food</span>
+                        <span>Yêu thích</span>
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/account" className={({ isActive }) => (isActive ? "active" : "")}>
                         <FaUser className="icon" />
-                        <span>Account</span>
+                        <span>Cá nhân</span>
                     </NavLink>
                 </li>
             </ul>
