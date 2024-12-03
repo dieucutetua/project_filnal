@@ -53,9 +53,9 @@ async def save_recog_to_db(user_id, list_name, update_at):
     await recog_collection.insert_one(recog_doc)
 
 
-async def delete_image_from_db(image_id: str):
+async def delete_image_from_db(image_id: str, user_id : str):
     # Xóa hình ảnh theo ID
-    result = await images_collection.delete_one({"image_id": image_id})
+    result = await images_collection.delete_one({"image_id": image_id}, {"user_id" : user_id})
     
     # Kiểm tra nếu có bản ghi bị xóa
     if result.deleted_count == 0:
