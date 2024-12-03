@@ -32,34 +32,26 @@ async def get_detected_items_by_image_id(image_id: str):
 @router.post("/suggest_food/")
 async def suggest_food(request: IngredientsRequest):
     try:
-        # Chuẩn bị prompt cho GPT
+        # Danh sách nguyên liệu
+        ingredients = request
+
+        # Prompt gợi ý món ăn
         prompt = f"""
-        I have the following ingredients: {', '.join(request.ingredients)}. 
-        Please suggest some dishes I can cook with these ingredients and include brief descriptions.
+        Tôi có các nguyên liệu sau: {', '.join(ingredients)}.
+        Hãy gợi ý 3 món ăn có thể chế biến từ các nguyên liệu này.
+        Cung cấp hướng dẫn ngắn gọn để thực hiện từng món.
         """
 
-        # Gửi yêu cầu tới GPT-4 sử dụng API đúng cách
-        response = openai.ChatCompletion.create(
-            model="gpt-4",  # Hoặc "gpt-3.5-turbo"
-            messages=[  # Đảm bảo sử dụng messages với đúng cú pháp
-                {"role": "system", "content": "You are a professional chef."},  # Cung cấp ngữ cảnh cho mô hình
-                {"role": "user", "content": prompt}  # Yêu cầu từ người dùng
-            ],
-            max_tokens=150,  # Giới hạn số từ trong phản hồi
-            temperature=0.7,  # Điều chỉnh độ sáng tạo của câu trả lời
+        # Gửi yêu cầu đến OpenAI
+        response = openai.Completion.create(
+            engine="text-davinci-003",  # Hoặc "gpt-4" nếu bạn có quyền truy cập
+            prompt=prompt,
+            max_tokens=300,
+            temperature=0.7
         )
 
-        # Trích xuất kết quả từ GPT
-        suggestions = response['choices'][0]['message']['content']
-
-        # Dịch kết quả sang tiếng Việt bằng Deep Translator
-        translated_suggestions = GoogleTranslator(source='en', target='vi').translate(suggestions)
-
-        # Trả về kết quả gợi ý món ăn
-        return {
-            "original_suggestions": suggestions,
-            "translated_suggestions": translated_suggestions
-        }
-
+        # Lấy và in kết quả
+        suggestions = response.choices[0].text.strip()
+        return(suggestions)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
