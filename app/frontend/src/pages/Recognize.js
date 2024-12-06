@@ -3,6 +3,8 @@ import axios from "axios";
 import { GoPlus } from "react-icons/go";
 import { Button, message } from "antd";
 import { MdDelete } from "react-icons/md";
+import { Modal } from "antd";
+import { MdFavoriteBorder,MdFavorite  } from "react-icons/md";
 import axiosInstance from "../utils/axiosInstance";
 
 const Recognize = () => {
@@ -11,6 +13,7 @@ const Recognize = () => {
     const [fileUpload, setFileUpload] = useState("")
     const [fileUploadReplace, setFileUploadReplace] = useState("")
     const [resultsUploadFile,setResultsUploadFile]  = useState("")
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const userID = localStorage.getItem("user_id");
 
     const handleOnChangeUploadFile = (event) => {
@@ -23,7 +26,7 @@ const Recognize = () => {
             })
         }
     }
-
+    
     const handleDeleteFileUpload = (nameFile) => {
         setFileUpload((prev) => {
             const newListFile = prev.filter((file) => file.name !== nameFile)
@@ -83,6 +86,18 @@ const Recognize = () => {
         }
     };
 
+
+
+    const handleShowModal = () => setIsModalVisible(true);
+    const handleCloseModal = () => setIsModalVisible(false);
+    const [isLiked, setIsLiked] = useState(false); // Trạng thái yêu thích
+
+    const toggleLike = () => {
+        setIsLiked((prev) => !prev); // Đảo ngược trạng thái yêu thích khi nhấn vào nút
+    };
+
+
+
     return (
         <div className="p-8 flex flex-col gap-2">
             <h1 className="text-xl font-medium">Ảnh cần nhận diện</h1>
@@ -111,6 +126,7 @@ const Recognize = () => {
                 <label htmlFor="upload-file" className="custom-box-upload-file">
                     Chọn ảnh
                     <GoPlus />
+                    
                 </label>
                 </div>
                 <Button
@@ -139,6 +155,46 @@ const Recognize = () => {
                 )
             })
            }</div>
+           <div className="flex gap-2">
+    
+            <div className="custom-box-upload-file" >
+            <Button type="primary" onClick={() => { 
+                handleShowModal(); 
+            }}>
+                Gợi ý!
+            </Button>
+                    </div>
+
+        {/* ------------------------Suggestion-------------------------- */}
+                <Modal
+            title="Gợi ý món ăn"
+            visible={isModalVisible}
+            onCancel={handleCloseModal} // Đóng Modal
+            footer={null} // Ẩn nút mặc định
+>
+            <div>
+                <p>Danh sách nguyên liệu:</p>
+                {resultsUploadFile.length > 0 ? (
+                <ul>
+                    {resultsUploadFile.map((result, index) => (
+                        <li key={index}>{result}</li> // Hiển thị nguyên liệu
+                    ))}
+                </ul>
+            ) : (
+                <p>Không có gợi ý nào được tìm thấy.</p>
+            )}
+                <div onClick={toggleLike} style={{ cursor: "pointer" }}>
+                    {isLiked ? (
+                    <MdFavorite size={30} color="red" />  
+                    ) : (
+                    <MdFavoriteBorder size={30} color="gray" /> 
+                    )}
+                </div>
+                <p>{isLiked ? "Đã yêu thích" : "Yêu thích"}</p> 
+            </div>
+            </Modal>
+            {/* -------------- */}
+            </div>
            
         </div>
 
