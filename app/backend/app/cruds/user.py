@@ -1,12 +1,12 @@
 # crud.py
 from passlib.context import CryptContext
 from database import users_collection,images_collection,recog_collection
-from schemas import UserCreate
+from models.modelUser import UserCreate
 from fastapi import HTTPException
 from hashlib import sha256
 from datetime import datetime
 from PIL import Image
-# Tạo người dùng mới
+
 async def create_user(user: UserCreate):
     # Hash mật khẩu trước khi lưu trữ
     hashed_password = sha256(user.password.encode('utf-8')).hexdigest()
@@ -15,7 +15,7 @@ async def create_user(user: UserCreate):
     user_data["created_at"] = datetime.now().isoformat()
     user_data["updated_at"] = datetime.now().isoformat()
 
-    # Thêm người dùng vào collection
+
     result = await users_collection.insert_one(user_data)
     return str(result.inserted_id)
 

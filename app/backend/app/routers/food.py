@@ -28,7 +28,7 @@ model = YOLO("D:/DATN/Source_project/app/backend/models/best_6.pt")  # Hoặc "l
 @router.post("/")
 async def upload_image(files: list[UploadFile] = File(...), user_id: str = Form(...)):
 
-    # Lấy thời gian hiện tại để tạo thư mục riêng cho lần upload này
+
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     time_folder = os.path.join(UPLOAD_FOLDER, current_time)
     os.makedirs(time_folder, exist_ok=True)
@@ -38,8 +38,6 @@ async def upload_image(files: list[UploadFile] = File(...), user_id: str = Form(
     for file in files:
         image_data = await file.read()
         image_stream = io.BytesIO(image_data)
-
-        # Kiểm tra xem tệp có phải là ảnh không
         if not imghdr.what(image_stream):
             return {"error": f"{file.filename} is not a valid image file."}
 
@@ -50,23 +48,17 @@ async def upload_image(files: list[UploadFile] = File(...), user_id: str = Form(
         upload_images_file.append(file.filename)
 
         
-        results = model(file_path)  #  model.predict(file_path) n
+        results = model(file_path) 
         for result in results:
             for detection in result.boxes:
                 class_id = int(detection.cls)
                 class_name = model.names[class_id]
 
                 names.append(class_name)
-         # Danh sách từ tiếng Anh
+ 
         english_list = list(set(names))
 
-        # Khởi tạo Translator
-        # translator = Translator()
         translator = GoogleTranslator(source="en", target="vi")
-
-        # Dịch từng từ trong danh sách sang tiếng Việt
-        
-        # Dịch từng từ trong danh sách sang tiếng Việt
         vietnamese_list = [translator.translate(word) for word in english_list]
         await save_image_info_to_db(file.filename, user_id, file_path, vietnamese_list)
 
