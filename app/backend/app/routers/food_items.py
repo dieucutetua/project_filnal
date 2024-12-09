@@ -24,7 +24,7 @@ async def delete_food(user_id :str , food_id: str):
         return {"message": "Food deleted successfully"}
     raise HTTPException(status_code=404, detail="Food not found")
 
-@router.get("/foods/{user_id}", response_model=FoodItem)
+@router.get("/foods/{user_id}", response_model=List[FoodItem])
 async def find_food_by_id(user_id :str ):
     food_cursor = food_items_collection.find({"user_id": user_id })
     
@@ -33,5 +33,5 @@ async def find_food_by_id(user_id :str ):
         food["food_id"] = str(food["_id"])  
         del food["_id"]
         foods.append(food)
-    return food
+    return foods
 

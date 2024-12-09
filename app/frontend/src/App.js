@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Recognize from "./pages/Recognize";
-import FavoriteFood from "./pages/FavouriteFood";
+import FavouriteFood from "./pages/FavouriteFood";
 import Histories from "./pages/Histories";
 import Accounts from "./pages/Accounts";
 import LoginForm from "./pages/LoginForm";
@@ -33,7 +33,7 @@ const App = () => {
                       <Route path="/" element={<Navigate to="/recognize" />} />
                       <Route path="/recognize" element={<Recognize />} />
                       <Route path="/histories" element={<Histories />} />
-                      <Route path="/favorite-food" element={<FavoriteFood />} />
+                      <Route path="/favourite_food" element={<FavouriteFood />} />
                       <Route path="/account" element={<Accounts />} />
                     </Routes>
                   </div>
