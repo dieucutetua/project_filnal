@@ -157,7 +157,8 @@ const Recognize = () => {
            }</div>
            <div className="flex gap-2">
     
-            <div className="custom-box-upload-file" >
+            {/* <div className="custom-box-upload-file" > */}
+            <div>
             <Button type="primary" onClick={() => { 
                 handleShowModal(); 
             }}>
@@ -178,7 +179,14 @@ const Recognize = () => {
                 <ul>
                     {resultsUploadFile.map((result, index) => (
                         <li key={index}>{result}</li> // Hiển thị nguyên liệu
+                        
                     ))}
+                    <li>
+                        <h4><strong>Tên món:</strong></h4>
+                        <p><strong>Mô tả:</strong></p>
+                        <p><strong>Nguyên liệu:</strong></p>
+                        <p><strong>Cách thực hiện:</strong></p>
+                    </li>
                 </ul>
             ) : (
                 <p>Không có gợi ý nào được tìm thấy.</p>

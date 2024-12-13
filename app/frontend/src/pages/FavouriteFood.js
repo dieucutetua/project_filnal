@@ -26,7 +26,7 @@ const FavouriteFood = () => {
             <div className="food-list">
                 {foods.map((food, index) => (
                     <div key={index} className="food-item">
-                        <h4>{food.name}</h4>
+                        <h4><strong>Tên món:</strong> {food.name}</h4>
                         <p><strong>Mô tả:</strong> {food.description}</p>
                         <p><strong>Nguyên liệu:</strong> {food.ingredients.join(", ")}</p>
                         <p><strong>Cách thực hiện:</strong> {food.steps}</p>
