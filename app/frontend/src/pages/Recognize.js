@@ -5,6 +5,8 @@ import { Button, message } from "antd";
 import { MdDelete } from "react-icons/md";
 import { Modal } from "antd";
 import { MdFavoriteBorder,MdFavorite  } from "react-icons/md";
+import { CiZoomIn } from "react-icons/ci";
+import { CiZoomOut } from "react-icons/ci";
 import axiosInstance from "../utils/axiosInstance";
 
 const Recognize = () => {
@@ -96,7 +98,15 @@ const Recognize = () => {
         setIsLiked((prev) => !prev); // Đảo ngược trạng thái yêu thích khi nhấn vào nút
     };
 
+    const [zoom, setZoom] = useState(1); // Kích thước ban đầu của ảnh
 
+    const handleZoomIn = () => {
+        setZoom(zoom + 0.1); // Phóng to ảnh khi nhấn vào nút zoom-in
+    };
+
+    const handleZoomOut = () => {
+        setZoom(zoom - 0.1); // Thu nhỏ ảnh khi nhấn vào nút zoom-out
+    };
 
     return (
         <div className="p-8 flex flex-col gap-2">
@@ -141,8 +151,19 @@ const Recognize = () => {
             <div className="flex gap-2">
             {fileUploadReplace.length > 0 && fileUploadReplace.map((file, index) => {
                 return(
-                    <div className="custom-box-upload-file" key={index}>
-                        <img src={URL.createObjectURL(file)} alt="upload-image" className="w-[140px] h-fit"/>
+                    <div className="flex justify-center items-center flex-col">
+                        <div className="custom-box-upload-file" key={index}>
+                            <img
+                            src={URL.createObjectURL(file)}
+                            alt="upload-image"
+                            className="w-[140px] h-fit"
+                            style={{ transform: `scale(${zoom})` }} // Áp dụng tỷ lệ phóng đại
+                            />
+                        </div>
+                        <div className="zoom-controls mt-2">
+                            <button onClick={handleZoomIn} className="zoom-in-btn p-2 m-2 bg-red-500 text-white"><CiZoomIn /></button>
+                            <button onClick={handleZoomOut} className="zoom-out-btn p-2 m-2 bg-red-500 text-white"><CiZoomOut /></button>
+                        </div>
                     </div>
                 )
             })}</div>

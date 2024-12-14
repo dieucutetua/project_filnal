@@ -187,3 +187,25 @@ code {
   color: steelblue;
   cursor: pointer;
 }
+.zoom-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.zoom-in-btn, .zoom-out-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.zoom-in-btn:hover {
+  background-color: #4CAF50;
+}
+
+.zoom-out-btn:hover {
+  background-color: #4936f4;
+}
