@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
-import { FaCamera, FaHistory, FaHeart, FaUser, FaHome } from "react-icons/fa"; // Biểu tượng từ react-icons
+import { BiFoodMenu } from "react-icons/bi";
+import { FaCamera, FaHistory, FaHeart, FaUser, FaHome  } from "react-icons/fa"; // Biểu tượng từ react-icons
 
 const Sidebar = () => {
     return (
@@ -26,6 +27,12 @@ const Sidebar = () => {
                         <span>Lịch sử</span>
                     </NavLink>
                 </li>
+                {/* <li>
+                    <NavLink to="/suggestion" className={({ isActive }) => (isActive ? "active" : "")}>
+                        <BiFoodMenu  className="icon" />
+                        <span>Gợi ý</span>
+                    </NavLink>
+                </li> */}
                 <li>
                     <NavLink to="/favourite_food" className={({ isActive }) => (isActive ? "active" : "")}>
                         <FaHeart className="icon" />

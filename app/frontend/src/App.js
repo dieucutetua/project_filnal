@@ -12,6 +12,7 @@ import Histories from "./pages/Histories";
 import Accounts from "./pages/Accounts";
 import LoginForm from "./pages/LoginForm";
 import SignUpForm from "./pages/SignUpForm";
+import Suggestion from "./pages/Suggestion"
 import "./App.css";
 import { AuthContext, AuthProvider } from "./common/AuthContext";
 
@@ -33,6 +34,7 @@ const App = () => {
                       <Route path="/" element={<Navigate to="/recognize" />} />
                       <Route path="/recognize" element={<Recognize />} />
                       <Route path="/histories" element={<Histories />} />
+                      <Route path="/suggestion" element={<Suggestion />} />
                       <Route path="/favourite_food" element={<FavouriteFood />} />
                       <Route path="/account" element={<Accounts />} />
                     </Routes>

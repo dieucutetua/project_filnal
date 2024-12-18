@@ -8,6 +8,7 @@ import { MdFavoriteBorder,MdFavorite  } from "react-icons/md";
 import { CiZoomIn } from "react-icons/ci";
 import { CiZoomOut } from "react-icons/ci";
 import axiosInstance from "../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const Recognize = () => {
     const [image_db, setImage_db] = useState([]); // Lưu trữ ảnh đã chọn
@@ -16,6 +17,8 @@ const Recognize = () => {
     const [fileUploadReplace, setFileUploadReplace] = useState("")
     const [resultsUploadFile,setResultsUploadFile]  = useState("")
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const navigate = useNavigate();
+    
     const userID = localStorage.getItem("user_id");
 
     const handleOnChangeUploadFile = (event) => {
@@ -107,6 +110,10 @@ const Recognize = () => {
     const handleZoomOut = () => {
         setZoom(zoom - 0.1); // Thu nhỏ ảnh khi nhấn vào nút zoom-out
     };
+     // Chuyển qua trang suggestion và truyền resultsUploadFile
+     const handleGoToSuggestionPage = () => {
+        navigate('/suggestion', { state: { ingredients: resultsUploadFile } });
+    };
 
     return (
         <div className="p-8 flex flex-col gap-2">
@@ -188,39 +195,14 @@ const Recognize = () => {
                     </div>
 
         {/* ------------------------Suggestion-------------------------- */}
-                <Modal
-            title="Gợi ý món ăn"
-            visible={isModalVisible}
-            onCancel={handleCloseModal} // Đóng Modal
-            footer={null} // Ẩn nút mặc định
->
-            <div>
-                <p>Danh sách nguyên liệu:</p>
-                {resultsUploadFile.length > 0 ? (
-                <ul>
-                    {resultsUploadFile.map((result, index) => (
-                        <li key={index}>{result}</li> // Hiển thị nguyên liệu
-                        
-                    ))}
-                    <li>
-                        <h4><strong>Tên món:</strong></h4>
-                        <p><strong>Mô tả:</strong></p>
-                        <p><strong>Nguyên liệu:</strong></p>
-                        <p><strong>Cách thực hiện:</strong></p>
-                    </li>
-                </ul>
-            ) : (
-                <p>Không có gợi ý nào được tìm thấy.</p>
-            )}
-                <div onClick={toggleLike} style={{ cursor: "pointer" }}>
-                    {isLiked ? (
-                    <MdFavorite size={30} color="red" />  
-                    ) : (
-                    <MdFavoriteBorder size={30} color="gray" /> 
-                    )}
-                </div>
-                <p>{isLiked ? "Đã yêu thích" : "Yêu thích"}</p> 
-            </div>
+       
+            <Modal
+                title="Ảnh"
+                visible={isModalVisible}
+                onCancel={() => setIsModalVisible(false)} // Đóng Modal
+                footer={null}
+            >
+                
             </Modal>
             {/* -------------- */}
             </div>
