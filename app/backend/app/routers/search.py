@@ -6,9 +6,8 @@ from deep_translator import GoogleTranslator
 
 router = APIRouter()
 
-# Hàm tìm kiếm món ăn theo nguyên liệu
 async def find_recipes_by_ingredients(input_ingredients: List[str]):
-    # Tìm kiếm món ăn trực tiếp trong MongoDB (nếu có thể)
+
     recipes_cursor = recipes_collection.find({"nor_ingredients": {"$in": input_ingredients}})
     recipes = await recipes_cursor.to_list(length=None)
 
@@ -27,7 +26,7 @@ async def find_recipes_by_ingredients(input_ingredients: List[str]):
     results = sorted(results, key=lambda x: x["match_percentage"], reverse=True)
     return results[:5]
 
-# Hàm dịch nguyên liệu từ tiếng Việt sang tiếng Anh
+
 async def detect_and_translate_to_english(ingredients: list) -> list:
     translated_ingredients = []
     for ingredient in ingredients:
@@ -36,7 +35,7 @@ async def detect_and_translate_to_english(ingredients: list) -> list:
             translated_ingredients.append(translated)
         except Exception as e:
             print(f"Error translating {ingredient}: {e}")
-            translated_ingredients.append(ingredient)  # Nếu dịch lỗi, giữ nguyên nguyên liệu
+            translated_ingredients.append(ingredient) 
     return translated_ingredients
 
 @router.post("/find_recipes")
@@ -44,13 +43,12 @@ async def get_recipes(input_ingredients: str):
     if not input_ingredients:
         raise HTTPException(status_code=400, detail="Nguyên liệu không thể trống.")
 
-    # Tách và loại bỏ khoảng trắng
+
     input_ingredients_list = [ingredient.strip() for ingredient in input_ingredients.split(",")]
 
-    # Dịch sang tiếng Anh nếu cần
+
     input_ingredients_list = await detect_and_translate_to_english(input_ingredients_list)
 
-    # Tìm kiếm công thức món ăn
     recipes = await find_recipes_by_ingredients(input_ingredients_list)
     if not recipes:
         raise HTTPException(status_code=404, detail="Không tìm thấy món ăn phù hợp.")

@@ -5,6 +5,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { message } from "antd";
 import axiosInstance from "../utils/axiosInstance";
 import { AuthContext } from "../common/AuthContext";
+import '../css/Login.css'
 
 const LoginForm = () => {
   const sizeIcon = 25;

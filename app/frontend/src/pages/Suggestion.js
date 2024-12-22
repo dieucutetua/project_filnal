@@ -4,22 +4,22 @@ import axiosInstance from "../utils/axiosInstance";
 
 const Suggestion = () => {
     const location = useLocation();
-    const [dishes, setDishes] = useState([]); // Lưu danh sách món ăn
-    const [loading, setLoading] = useState(false); // Trạng thái tải dữ liệu
-    const [error, setError] = useState(null); // Trạng thái lỗi
-    const [selectedDish, setSelectedDish] = useState(null); // Lưu món ăn được chọn
+    const [dishes, setDishes] = useState([]); 
+    const [loading, setLoading] = useState(false); 
+    const [error, setError] = useState(null); 
+    const [selectedDish, setSelectedDish] = useState(null); 
 
     const searchParams = new URLSearchParams(location.search);
     const ingredients = JSON.parse(searchParams.get("ingredients") || "[]");
 
-    const hasFetched = useRef(false);  // Sử dụng useRef để tránh gọi lại khi ingredients không thay đổi
+    const hasFetched = useRef(false); 
 
     useEffect(() => {
         if (ingredients.length > 0 && !hasFetched.current) {
             fetchSuggestions();
-            hasFetched.current = true;  // Đánh dấu rằng đã fetch xong
+            hasFetched.current = true;  
         }
-    }, [ingredients]);  // Không gọi lại nếu ingredients không thay đổi
+    }, [ingredients]);  
 
     const fetchSuggestions = async () => {
         setLoading(true);
@@ -27,7 +27,7 @@ const Suggestion = () => {
         try {
             const response = await axiosInstance.post("/search/find_recipes", null, {
                 params: {
-                    input_ingredients: ingredients.join(",")  // Gửi nguyên liệu dưới dạng chuỗi trong tham số truy vấn
+                    input_ingredients: ingredients.join(",")  
                 }
             });
 
@@ -46,17 +46,17 @@ const Suggestion = () => {
     };
 
     const handleDishClick = (dish) => {
-        setSelectedDish(dish);  // Lưu món ăn đã chọn vào state
+        setSelectedDish(dish); 
     };
 
     const handleBack = () => {
-        setSelectedDish(null);  // Quay lại danh sách món ăn
+        setSelectedDish(null);  
     };
 
     return (
         <div className="p-8">
             {selectedDish ? (
-                // Hiển thị chi tiết món ăn khi đã chọn
+        
                 <div>
                     <button onClick={handleBack} className="text-blue-500 mb-4">Quay lại</button>
                     <h1 className="text-2xl font-bold mb-4">{selectedDish.title}</h1>
@@ -73,7 +73,7 @@ const Suggestion = () => {
                         ))}
                     </ul>
 
-                    {/* Hiển thị các bước nếu có */}
+   
                     {selectedDish.steps && (
                         <div>
                             <h3 className="font-medium mt-4">Các bước:</h3>
@@ -86,7 +86,7 @@ const Suggestion = () => {
                     )}
                 </div>
             ) : (
-                // Hiển thị danh sách món ăn khi chưa chọn món
+
                 <>
                     <h1 className="text-2xl font-bold mb-4">Danh sách món ăn gợi ý</h1>
                     {loading && <p>Đang tải dữ liệu...</p>}
@@ -100,7 +100,7 @@ const Suggestion = () => {
                                 <li
                                     key={index}
                                     className="p-4 bg-white shadow rounded-lg flex flex-col items-center"
-                                    onClick={() => handleDishClick(dish)}  // Gọi handleDishClick khi nhấn vào món ăn
+                                    onClick={() => handleDishClick(dish)} 
                                 >
                                     <img
                                         src={dish.image_url || "/default-dish.jpg"}
@@ -119,7 +119,7 @@ const Suggestion = () => {
                                             </li>
                                         ))}
                                     </ul>
-                                    {/* Không hiển thị steps khi chưa chọn món ăn */}
+                                    
                                 </li>
                             ))}
                         </ul>

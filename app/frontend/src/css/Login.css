@@ -1,0 +1,106 @@
+/* Container của form login */
+.container-login-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f3f4f6; /* Màu nền nhẹ nhàng */
+}
+
+/* Container chính của form */
+.container-login {
+  background-color: #fff;
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header của form */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header .text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.header .underline {
+  width: 60px;
+  height: 3px;
+  background-color: #1abc9c;
+  margin: 0 auto;
+  margin-top: 5px;
+}
+
+/* Các trường nhập (input) */
+.inputs .input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fafafa;
+  width: 100%; /* Đảm bảo input không tràn ra ngoài */
+  box-sizing: border-box; /* Đảm bảo padding không làm tràn */
+}
+
+.inputs .input input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+  padding-left: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Icon bên trái của input */
+.input svg {
+  margin-right: 10px;
+  color: #1abc9c;
+}
+
+/* Button login */
+.submit {
+  width: 100%;
+  padding: 12px;
+  background-color: #1abc9c;
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submit:hover {
+  background-color: #16a085;
+  transform: scale(1.05);
+}
+
+/* Text và link đăng ký */
+.register-text {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.register-text p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.register-text .register-link {
+  font-size: 0.9rem;
+  color: #1abc9c;
+  text-decoration: none;
+}
+
+.register-text .register-link:hover {
+  text-decoration: underline;
+}
