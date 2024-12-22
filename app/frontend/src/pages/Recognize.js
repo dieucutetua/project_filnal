@@ -8,7 +8,7 @@ import { MdFavoriteBorder,MdFavorite  } from "react-icons/md";
 import { CiZoomIn } from "react-icons/ci";
 import { CiZoomOut } from "react-icons/ci";
 import axiosInstance from "../utils/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 
 const Recognize = () => {
     const [image_db, setImage_db] = useState([]); // Lưu trữ ảnh đã chọn
@@ -110,10 +110,17 @@ const Recognize = () => {
     const handleZoomOut = () => {
         setZoom(zoom - 0.1); // Thu nhỏ ảnh khi nhấn vào nút zoom-out
     };
-     // Chuyển qua trang suggestion và truyền resultsUploadFile
-     const handleGoToSuggestionPage = () => {
-        navigate('/suggestion', { state: { ingredients: resultsUploadFile } });
+    //  // Chuyển qua trang suggestion và truyền resultsUploadFile
+    //  const handleGoToSuggestionPage = () => {
+    //     navigate('/suggestion', { state: { ingredients: resultsUploadFile } });
+    // };
+    const handleNavigateWithSearchParams = () => {
+        const params = createSearchParams({
+            ingredients: JSON.stringify(resultsUploadFile), // Chuyển kết quả nhận diện thành chuỗi JSON
+        });
+        navigate(`/suggestion?${params}`);
     };
+    
 
     return (
         <div className="p-8 flex flex-col gap-2">
@@ -196,14 +203,68 @@ const Recognize = () => {
 
         {/* ------------------------Suggestion-------------------------- */}
        
-            <Modal
-                title="Ảnh"
+           <Modal
+                title="Ảnh đã tải lên"
                 visible={isModalVisible}
                 onCancel={() => setIsModalVisible(false)} // Đóng Modal
                 footer={null}
+                width={800} // Tăng chiều rộng Modal
+                bodyStyle={{ maxHeight: "70vh", overflowY: "auto" }} // Giới hạn chiều cao, hỗ trợ cuộn
             >
-                
+                <div className="flex flex-wrap gap-6 justify-center">
+                    {fileUploadReplace.length > 0 &&
+                        fileUploadReplace.map((file, index) => (
+                            <div
+                                key={index}
+                                className="flex flex-col items-center"
+                                style={{ width: "200px" }} // Tăng kích thước ảnh
+                            >
+                                <img
+                                    src={URL.createObjectURL(file)}
+                                    alt={`uploaded-${index}`}
+                                    className="w-full h-auto rounded-md shadow-md"
+                                    style={{
+                                        transform: `scale(${zoom})`,
+                                    }}
+                                />
+                                <div className="zoom-controls mt-2 flex gap-2">
+                                    <button
+                                        onClick={handleZoomIn}
+                                        className="zoom-in-btn p-2 bg-green-500 text-white rounded-md"
+                                    >
+                                        <CiZoomIn />
+                                    </button>
+                                    <button
+                                        onClick={handleZoomOut}
+                                        className="zoom-out-btn p-2 bg-red-500 text-white rounded-md"
+                                    >
+                                        <CiZoomOut />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                </div>
+                <div className="mt-6">
+                    <h3 className="text-lg font-semibold">Kết quả nhận diện</h3>
+                    <ul className="list-disc ml-5">
+                        {resultsUploadFile.length > 0 &&
+                            resultsUploadFile.map((result, index) => (
+                                <li key={index} className="mt-1 text-lg">
+                                    {result}
+                                </li>
+                            ))}
+                    </ul>
+                </div>
+                <Button
+                    type="primary"
+                    onClick={() => {
+                        handleNavigateWithSearchParams(); // Gọi hàm chuyển hướng
+                    }}
+                >
+                    Xem gợi ý!
+                </Button>
             </Modal>
+
             {/* -------------- */}
             </div>
            

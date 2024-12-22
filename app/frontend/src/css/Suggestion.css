@@ -1,0 +1,4 @@
+.steps-container {
+  max-height: 200px; /* Giới hạn chiều cao */
+  overflow-y: auto; /* Thêm thanh cuộn nếu cần */
+}

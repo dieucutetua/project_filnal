@@ -9,12 +9,12 @@ const Sidebar = () => {
         <aside className="sidebar">
             <h2>Website</h2>
             <ul>
-                <li>
+                {/* <li>
                     <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
                         <FaHome className="icon" />
                         <span>Trang chủ</span>
                     </NavLink>
-                </li>
+                </li> */}
                 <li>
                     <NavLink to="/recognize" className={({ isActive }) => (isActive ? "active" : "")}>
                         <FaCamera className="icon" />
@@ -27,12 +27,12 @@ const Sidebar = () => {
                         <span>Lịch sử</span>
                     </NavLink>
                 </li>
-                {/* <li>
+                <li>
                     <NavLink to="/suggestion" className={({ isActive }) => (isActive ? "active" : "")}>
                         <BiFoodMenu  className="icon" />
                         <span>Gợi ý</span>
                     </NavLink>
-                </li> */}
+                </li>
                 <li>
                     <NavLink to="/favourite_food" className={({ isActive }) => (isActive ? "active" : "")}>
                         <FaHeart className="icon" />
