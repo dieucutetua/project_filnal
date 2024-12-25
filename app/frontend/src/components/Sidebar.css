@@ -7,6 +7,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  position: relative; /* Thêm position relative để các phần tử con có thể định vị chính xác */
 }
 
 /* Sidebar title */
@@ -57,4 +58,31 @@
 /* Menu text */
 .sidebar span {
   font-size: 1rem;
+}
+
+/* Nút đăng xuất */
+.logout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%; /* Đảm bảo nút chiếm hết chiều rộng */
+  position: absolute;
+  bottom: 20px; /* Đảm bảo nút đăng xuất cách đáy sidebar một chút */
+}
+
+.logout-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Logout icon */
+.logout-icon {
+  font-size: 24px;
+  color: #f44336;
+}
+
+.logout-icon:hover {
+  color: #d32f2f;
 }

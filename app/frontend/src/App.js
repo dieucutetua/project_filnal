@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import Home from "./pages/Home"
 import Sidebar from "./components/Sidebar";
 import Recognize from "./pages/Recognize";
 import FavouriteFood from "./pages/FavouriteFood";
@@ -15,6 +16,7 @@ import SignUpForm from "./pages/SignUpForm";
 import Suggestion from "./pages/Suggestion"
 import "./App.css";
 import { AuthContext, AuthProvider } from "./common/AuthContext";
+import { BiHome } from "react-icons/bi";
 
 const App = () => {
   return (
@@ -31,12 +33,13 @@ const App = () => {
                   <Sidebar />
                   <div className="main">
                     <Routes>
-                      <Route path="/" element={<Navigate to="/recognize" />} />
+                      {/* <Route path="/" element={<Navigate to="/recognize" />} /> */}
+                      <Route path="/home" element={<Home />} />
                       <Route path="/recognize" element={<Recognize />} />
                       <Route path="/histories" element={<Histories />} />
                       <Route path="/suggestion" element={<Suggestion />} />
                       <Route path="/favourite_food" element={<FavouriteFood />} />
-                      <Route path="/account" element={<Accounts />} />
+                      {/* <Route path="/account" element={<Accounts />} /> */}
                     </Routes>
                   </div>
                 </div>

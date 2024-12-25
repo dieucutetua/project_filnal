@@ -6,8 +6,8 @@ from deep_translator import GoogleTranslator
 
 router = APIRouter()
 
+# Hàm tìm kiếm công thức theo nguyên liệu
 async def find_recipes_by_ingredients(input_ingredients: List[str]):
-
     recipes_cursor = recipes_collection.find({"nor_ingredients": {"$in": input_ingredients}})
     recipes = await recipes_cursor.to_list(length=None)
 
@@ -26,7 +26,7 @@ async def find_recipes_by_ingredients(input_ingredients: List[str]):
     results = sorted(results, key=lambda x: x["match_percentage"], reverse=True)
     return results[:5]
 
-
+# Hàm dịch và chuyển sang tiếng Anh
 async def detect_and_translate_to_english(ingredients: list) -> list:
     translated_ingredients = []
     for ingredient in ingredients:
@@ -38,19 +38,41 @@ async def detect_and_translate_to_english(ingredients: list) -> list:
             translated_ingredients.append(ingredient) 
     return translated_ingredients
 
+# Endpoint tìm kiếm công thức theo nguyên liệu
 @router.post("/find_recipes")
 async def get_recipes(input_ingredients: str):
     if not input_ingredients:
         raise HTTPException(status_code=400, detail="Nguyên liệu không thể trống.")
 
-
     input_ingredients_list = [ingredient.strip() for ingredient in input_ingredients.split(",")]
-
-
     input_ingredients_list = await detect_and_translate_to_english(input_ingredients_list)
 
     recipes = await find_recipes_by_ingredients(input_ingredients_list)
     if not recipes:
         raise HTTPException(status_code=404, detail="Không tìm thấy món ăn phù hợp.")
+    
+    return {"recipes": recipes}
+
+# Hàm lấy tất cả các công thức món ăn
+async def get_all_recipes():
+    recipes_cursor = recipes_collection.find()
+    recipes = await recipes_cursor.to_list(length=None)
+
+    results = []
+    for recipe in recipes:
+        results.append({
+            "title": recipe.get("name", ""),
+            "ingredients": list(set(recipe.get("ingredients", []))),
+            "steps": recipe.get("instructions", ""),
+        })
+
+    return results
+
+# Endpoint để lấy tất cả công thức món ăn
+@router.get("/get_all_recipes")
+async def get_all():
+    recipes = await get_all_recipes()
+    if not recipes:
+        raise HTTPException(status_code=404, detail="Không tìm thấy công thức món ăn.")
     
     return {"recipes": recipes}

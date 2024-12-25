@@ -49,7 +49,14 @@ h3 {
   font-size: 14px;
 }
 
-.delete-button {
+.button-container {
+  display: flex;
+  gap: 10px;  /* Tạo khoảng cách giữa các nút */
+  justify-content: flex-start; /* Căn trái hoặc có thể căn giữa nếu cần */
+}
+
+.delete-button,
+.suggestion-button {
   background-color: #ff4d4f;
   color: #fff;
   border: none;
@@ -57,13 +64,26 @@ h3 {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
-  margin-top: 10px;
+}
+
+.delete-button {
+  background-color: #ff4d4f;
 }
 
 .delete-button:hover {
   background-color: #ff3333;
   transform: scale(1.05);
 }
+
+.suggestion-button {
+  background-color: #4dff88;
+}
+
+.suggestion-button:hover {
+  background-color: #33cc66;
+  transform: scale(1.05);
+}
+
 
 .pagination-controls {
   display: flex;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import "../css/Histories.css";
 
 const Histories = () => {
@@ -9,9 +10,12 @@ const Histories = () => {
   const [deleteError, setDeleteError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); 
   const [imagesPerPage] = useState(8);
+  const [resultsUploadFile, setResultsUploadFile] = useState("");
 
   const user_id = localStorage.getItem("user_id");
   const email = localStorage.getItem("email");
+
+  const navigate = useNavigate();  // Khởi tạo useNavigate
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -61,12 +65,19 @@ const Histories = () => {
     }
   };
 
+   const handleNavigateWithSearchParams = (detectedItems) => {
+          const params = createSearchParams({
+              ingredients: JSON.stringify(detectedItems), // Chuyển kết quả nhận diện thành chuỗi JSON
+          });
+          navigate(`/suggestion?${params}`);
+      };
+  
+
   if (loading) return <p>Đang tải ảnh...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div className="histories-container">
-      {/* <h3>Danh sách ảnh của người dùng: {email}</h3> */}
       <div className="image-list">
         {deleteError && <p style={{ color: "red" }}>{deleteError}</p>}
         {currentImages.length === 0 ? (
@@ -86,17 +97,29 @@ const Histories = () => {
               <p className="image-detected">
                 Đã nhận diện: {image.detected_items.join(", ")}
               </p>
-              <button
-                onClick={() => deleteItem(image.image_id)}
-                className="delete-button"
-              >
-                Xóa
-              </button>
+              <div>
+                <button
+                  onClick={() => deleteItem(image.image_id)}
+                  className="delete-button"
+                >
+                  Xóa
+                </button>
+                <button
+                  // Gửi detectedItems đến Suggestion
+                  className="suggestion-button"
+                  type="primary"
+                  onClick={() => {
+                      handleNavigateWithSearchParams(image.detected_items); // Gọi hàm chuyển hướng
+                  }}
+                >
+                  Gợi ý
+                </button>
+              </div>
             </div>
           ))
         )}
       </div>
-  
+
       {/* Pagination Controls */}
       <div className="pagination-controls">
         <button onClick={prevPage} disabled={currentPage === 1}>
@@ -117,7 +140,6 @@ const Histories = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Histories;
