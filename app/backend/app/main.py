@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import user, food, suggestions,image,food_items,search
+from routers import user, food, suggestions,image,food_items,search,favourite_food
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
@@ -32,7 +32,8 @@ app.include_router(user.router, prefix="/users", tags=["users"])
 app.include_router(food.router, prefix="/food", tags=["food"])
 app.include_router(search.router, prefix="/search", tags=["search"])
 app.include_router(image.router, prefix="/image", tags=["image"])
-app.include_router(food_items.router,prefix="/food_items", tags=["food_items"])
+app.include_router(favourite_food.router,prefix="/favourite_food", tags=["favourite_food"])
+# app.include_router(food_items.router,prefix="/food_items", tags=["food_items"])
 
 # @app.get("/")
 # async def root():

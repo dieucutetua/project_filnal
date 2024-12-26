@@ -1,26 +1,103 @@
+/* Thùng chứa danh sách món ăn */
 .food-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* Thẻ món ăn */
 .food-item {
-  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  width: 300px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 350px;  /* Tăng chiều cao thẻ món ăn */
+  position: relative;
+  overflow: hidden; /* Đảm bảo không bị tràn ra ngoài */
 }
 
+/* Hiệu ứng hover cho món ăn */
+.food-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Tên món ăn */
 .food-item h4 {
-  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
   color: #333;
+  flex-grow: 1;
+  text-align: center;  /* Canh giữa tên món */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Ngăn tên món ăn quá dài */
 }
 
-.food-item p {
-  margin: 4px 0;
-  color: #666;
-  font-size: 14px;
+/* Hiển thị ảnh món ăn */
+.food-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
+
+/* Nút xem chi tiết */
+.food-item button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  align-self: center;  /* Canh giữa nút */
+  margin-top: auto;
+  width: 100%;  /* Đảm bảo nút chiếm chiều rộng */
+}
+
+.food-item button:hover {
+  background-color: #0056b3;
+}
+
+/* Modal */
+.ant-modal-body {
+  padding: 20px;
+}
+
+.food-details p {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.food-details p strong {
+  color: #007bff;
+}
+
+/* Đóng Modal */
+.close-button {
+  background-color: #ff4d4f;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  margin-top: 15px;
+}
+
+.close-button:hover {
+  background-color: #d43828;
+}
+

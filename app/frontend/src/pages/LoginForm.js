@@ -33,7 +33,7 @@ const LoginForm = () => {
         }
         login();
         message.success("Login success!");
-        navigate("/recognize");
+        navigate("/home");
       }
       console.log("Login successful", response);
     } catch (error) {

@@ -1,13 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
+import imgdefault from '../img/bb.jpg';
+import { FaBackward ,FaHeart} from "react-icons/fa";
+
 
 const Suggestion = () => {
     const location = useLocation();
     const [dishes, setDishes] = useState([]); 
     const [loading, setLoading] = useState(false); 
+    const [saving, setSaving] = useState(false);
+    const [saveError, setSaveError] = useState(null);
     const [error, setError] = useState(null); 
     const [selectedDish, setSelectedDish] = useState(null); 
+    const user_id = localStorage.getItem("user_id");
 
     const searchParams = new URLSearchParams(location.search);
     const ingredients = JSON.parse(searchParams.get("ingredients") || "[]");
@@ -44,6 +50,39 @@ const Suggestion = () => {
             setLoading(false);
         }
     };
+    const saveFavourite = async (dish) => {
+        setSaving(true);
+        setSaveError(null);
+        try {
+            const response = await axiosInstance.post("/favourite_food/favourite", {
+                
+                user_id: user_id, // Thay bằng ID người dùng hiện tại
+                name: dish.title,
+                source: dish.source || "N/A",
+                preptime: dish.preptime || 0,
+                waittime: dish.waittime || 0,
+                cooktime: dish.cooktime || 0,
+                servings: dish.servings || 1,
+                comments: "",
+                calories: dish.calories || 0,
+                fat: dish.fat || 0,
+                satfat: dish.satfat || 0,
+                carbs: dish.carbs || 0,
+                fiber: dish.fiber || 0,
+                sugar: dish.sugar || 0,
+                protein: dish.protein || 0,
+                instructions: dish.steps || "N/A",
+                ingredients: dish.ingredients || [],
+                tags: dish.tags || []
+            });
+            alert("Lưu món ăn thành công!");
+        } catch (err) {
+            console.error("Error saving favourite dish:", err);
+            setSaveError("Không thể lưu món ăn yêu thích. Vui lòng thử lại.");
+        } finally {
+            setSaving(false);
+        }
+    };
 
     const handleDishClick = (dish) => {
         setSelectedDish(dish); 
@@ -58,10 +97,19 @@ const Suggestion = () => {
             {selectedDish ? (
         
                 <div>
-                    <button onClick={handleBack} className="text-blue-500 mb-4">Quay lại</button>
+                    
+                    <button onClick={handleBack} className="text-blue-500 mb-4"><FaBackward className="icon"/>Quay lại</button>
+                     <button
+                        onClick={() => saveFavourite(selectedDish)}
+                        className="bg-red-500 text-white px-4 py-2 rounded-lg flex items-center"
+                        disabled={saving}
+                    >
+                        <FaHeart className="mr-2" />
+                        {saving ? "Đang lưu..." : "Lưu yêu thích"}
+                        </button>
                     <h1 className="text-2xl font-bold mb-4">{selectedDish.title}</h1>
                     <img
-                        src={selectedDish.image_url || "/default-dish.jpg"}
+                        src={selectedDish.image_url ||imgdefault}
                         alt={selectedDish.title}
                         className="w-full h-72 object-cover rounded-md mb-4"
                     />
@@ -103,7 +151,7 @@ const Suggestion = () => {
                                     onClick={() => handleDishClick(dish)} 
                                 >
                                     <img
-                                        src={dish.image_url || "/default-dish.jpg"}
+                                        src={dish.image_url || imgdefault}
                                         alt={dish.title}
                                         className="w-32 h-32 object-cover rounded-md mb-2"
                                     />
