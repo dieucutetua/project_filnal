@@ -61,8 +61,8 @@ const FavouriteFood = () => {
                                 src={ imgdefault}
                                 className="w-32 h-32 object-cover rounded-md mb-2"
                             />
-                            <button onClick={() => handleShowModal(food)}>Xem chi tiết</button>
-                            <button onClick={() => deleteItem(food.food_id)}>Xóa món ăn</button>
+                            <button className="select-button" onClick={() => handleShowModal(food)}>Xem chi tiết</button>
+                            <button className="delete-button" onClick={() => deleteItem(food.food_id)}>Xóa món ăn</button>
                         </div>
                     ))
                 )}

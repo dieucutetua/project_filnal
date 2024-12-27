@@ -93,7 +93,7 @@ const Home = () => {
         setSelectedDish(null);  
     };
     return (
-        <div className="p-8">
+        <div className="p-8 w-full overflow-auto">
             {selectedDish ? (
         
         <div>
@@ -120,7 +120,6 @@ const Home = () => {
                 ))}
             </ul>
 
-
             {selectedDish.steps && (
                 <div>
                     <h3 className="font-medium mt-4">Các bước:</h3>
@@ -143,29 +142,29 @@ const Home = () => {
             {!loading && randomDishes.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {randomDishes.map((dish, index) => (
-                        <div key={index} className="p-4 bg-white shadow rounded-lg flex flex-col items-center">
+                        <div key={index} className="p-4 col-span-1 bg-white shadow rounded-lg flex flex-col items-center">
                             <li
                                     key={index}
-                                    className="p-4 bg-white shadow rounded-lg flex flex-col items-center"
+                                    className="p-4 bg-white shadow rounded-lg flex flex-col items-center h-full w-full"
                                     onClick={() => handleDishClick(dish)} 
                                 >
-                            <img
-                                src={dish.image_url || imgdefault}
-                                alt={dish.title}
-                                className="w-32 h-32 object-cover rounded-md mb-2"
-                            />
-                            <h2 className="text-lg font-medium text-center">{dish.title}</h2>
-                            <p className="text-sm text-gray-600 text-center">
-                                {dish.description || "Không có mô tả chi tiết."}
-                            </p>
-                            <ul className="text-sm mt-2 text-gray-800">
-                                <h3 className="font-medium">Nguyên liệu:</h3>
-                                {dish.ingredients.map((ingredient, idx) => (
-                                    <li key={idx} className="list-disc ml-4">
-                                        {ingredient}
-                                    </li>
-                                ))}
-                            </ul>
+                                <img
+                                    src={dish.image_url || imgdefault}
+                                    alt={dish.title}
+                                    className="w-32 h-32 object-cover rounded-md mb-2"
+                                />
+                                <h2 className="text-lg font-medium text-center">{dish.title}</h2>
+                                <p className="text-sm text-gray-600 text-center">
+                                    {dish.description || "Không có mô tả chi tiết."}
+                                </p>
+                                <ul className="text-sm mt-2 text-gray-800">
+                                    <h3 className="font-medium">Nguyên liệu:</h3>
+                                    {dish.ingredients.map((ingredient, idx) => (
+                                        <li key={idx} className="list-disc ml-4">
+                                            {ingredient}
+                                        </li>
+                                    ))}
+                                </ul>
                             </li>
                         </div>
                     ))}

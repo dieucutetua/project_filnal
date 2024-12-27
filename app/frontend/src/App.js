@@ -30,8 +30,10 @@ const App = () => {
             element={
               <PrivateRoute>
                 <div className="dashboard">
-                  <Sidebar />
-                  <div className="main">
+                    <div className="w-[20vw]">
+                    <Sidebar />
+                      </div>                  
+                    <div className="main !flex-1 !w-[80%] h-[100%] overflow-auto">
                     <Routes>
                       {/* <Route path="/" element={<Navigate to="/recognize" />} /> */}
                       <Route path="/home" element={<Home />} />

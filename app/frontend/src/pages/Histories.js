@@ -78,13 +78,13 @@ const Histories = () => {
 
   return (
     <div className="histories-container">
-      <div className="image-list">
+      <div className="img-list">
         {deleteError && <p style={{ color: "red" }}>{deleteError}</p>}
         {currentImages.length === 0 ? (
           <p>Không có lịch sử tìm kiếm nào</p>
         ) : (
           currentImages.map((image) => (
-            <div key={image.image_path} className="image-item">
+            <div key={image.image_path} className="img-item">
               <img
                 src={`http://127.0.0.1:8000/${image.image_path}`}
                 alt={`Image ${image.image_id}`}

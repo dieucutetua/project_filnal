@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import { BiFoodMenu } from "react-icons/bi";
-import { FaCamera, FaHistory, FaHeart, FaUser, FaHome, FaSignOutAlt } from "react-icons/fa"; // Biểu tượng đăng xuất
+import { FaCamera, FaHistory, FaHeart, FaUser, FaHome, FaSignOutAlt,FaRegMehRollingEyes  } from "react-icons/fa"; // Biểu tượng đăng xuất
 
 const Sidebar = () => {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Sidebar = () => {
 
     return (
         <aside className="sidebar">
-            <h2>Website</h2>
+            <h2><FaRegMehRollingEyes  className="icon"/> HUNGRY EYES</h2>
             <ul>
             <li>
                     <NavLink to="/home" className={({ isActive }) => (isActive ? "active" : "")}>
@@ -56,8 +56,8 @@ const Sidebar = () => {
                     </NavLink>
                 </li> */}
             </ul>
-            <div className="logout-container" onClick={handleLogout}>
-                <FaSignOutAlt className="logout-icon" />
+            <div className="logout-btn" onClick={handleLogout}>
+                <FaSignOutAlt className="icon" /><span>Đăng xuất</span>
             </div>
             {/* Biểu tượng đăng xuất */}
           
