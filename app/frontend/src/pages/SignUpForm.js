@@ -5,6 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { message } from "antd";
 import axiosInstance from "../utils/axiosInstance";
+import bgr_image from "../components/assets/bgr_image.jpg"
 
 const SignUpForm = () => {
   const sizeIcon = 25;
@@ -39,8 +40,14 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="container-login-form">
-      <div className="container-login">
+    <div className="container-login-form"
+    style={{
+      backgroundImage: `url(${bgr_image})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      height: "100vh"
+    }}>
+      <div className="container-login ">
         <div className="header">
           <div className="text">Register</div>
           <div className="underline"></div>

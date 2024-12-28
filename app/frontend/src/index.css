@@ -19,7 +19,7 @@ code {
 .container-login {
   width: 50%;
   /* Tương đương w-full */
-  height: 100%;
+  height: 90%;
   /* Tương đương h-full */
   display: flex;
   /* Tương đương flex */
@@ -106,6 +106,7 @@ code {
 }
 
 .inputs {
+  width: 80%;
   margin-top: 55px;
   display: flex;
   flex-direction: column;
@@ -193,7 +194,8 @@ code {
   margin-top: 10px;
 }
 
-.zoom-in-btn, .zoom-out-btn {
+.zoom-in-btn,
+.zoom-out-btn {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
@@ -203,7 +205,7 @@ code {
 }
 
 .zoom-in-btn:hover {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .zoom-out-btn:hover {

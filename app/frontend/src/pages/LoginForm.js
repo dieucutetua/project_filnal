@@ -6,6 +6,7 @@ import { message } from "antd";
 import axiosInstance from "../utils/axiosInstance";
 import { AuthContext } from "../common/AuthContext";
 import '../css/Login.css'
+import bgr_image from "../components/assets/bgr_image.jpg"
 
 const LoginForm = () => {
   const sizeIcon = 25;
@@ -47,7 +48,13 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="container-login-form">
+    <div className="container-login-form"
+    style={{
+      backgroundImage: `url(${bgr_image})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      height: "100vh"
+    }}>
       <div className="container-login">
         <div className="header">
           <div className="text">Login</div>
