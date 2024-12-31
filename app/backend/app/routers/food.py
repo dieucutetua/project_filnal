@@ -14,7 +14,7 @@ from datetime import datetime
 import imghdr
 from fastapi import FastAPI, HTTPException
 from models.modelUser import UserCreate, UserLogin, User
-from cruds.image import save_image_info_to_db,save_recog_to_db
+from cruds.image import save_image_info_to_db,save_recog_to_db,process_and_detect
 
 router = APIRouter()
 
@@ -28,43 +28,41 @@ model = YOLO("C:/Users/ADMIN/Desktop/fe/project_filnal/app/backend/models/best_1
 @router.post("/")
 async def upload_image(files: list[UploadFile] = File(...), user_id: str = Form(...)):
 
-
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     time_folder = os.path.join(UPLOAD_FOLDER, current_time)
     os.makedirs(time_folder, exist_ok=True)
 
     upload_images_file = []
-    names = []
+    vietnamese_list = []
+    result_image_paths = []
+
     for file in files:
+        # Lưu tạm thời file upload
         image_data = await file.read()
         image_stream = io.BytesIO(image_data)
         if not imghdr.what(image_stream):
             return {"error": f"{file.filename} is not a valid image file."}
 
         image = Image.open(image_stream)
-
         file_path = os.path.join(time_folder, file.filename)
         image.save(file_path)
         upload_images_file.append(file.filename)
 
-        
-        results = model(file_path) 
-        for result in results:
-            for detection in result.boxes:
-                class_id = int(detection.cls)
-                class_name = model.names[class_id]
+        # Gọi hàm xử lý
+        detected_items, result_image_path = process_and_detect(
+            image_path=file_path, model=model, output_folder=time_folder
+        )
+        vietnamese_list.extend(detected_items)
+        result_image_paths.append(result_image_path)
 
-                names.append(class_name)
- 
-        english_list = list(set(names))
+        # Lưu vào cơ sở dữ liệu
+        await save_image_info_to_db(file.filename, user_id, file_path, detected_items)
+        await save_recog_to_db(user_id, detected_items, datetime.now())
 
-        translator = GoogleTranslator(source="en", target="vi")
-        vietnamese_list = [translator.translate(word) for word in english_list]
-        await save_image_info_to_db(file.filename, user_id, file_path, vietnamese_list)
+    return {
+        "info": f"Files saved at '{time_folder}'",
+        "detected_items": vietnamese_list,
+        "result_image_paths": result_image_paths
+    }
 
-       
-
-        await save_recog_to_db(user_id,vietnamese_list,datetime.now())
-   
-    return {"info": f"Files saved at '{time_folder}'", "detected_items": vietnamese_list}
     

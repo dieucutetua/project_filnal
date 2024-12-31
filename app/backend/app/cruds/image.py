@@ -5,6 +5,13 @@ from fastapi import HTTPException
 from hashlib import sha256
 from datetime import datetime
 from PIL import Image
+import cv2
+import numpy as np
+from deep_translator import GoogleTranslator
+from ultralytics import YOLO
+from PIL import Image
+import os
+
 UPLOAD_FOLDER = "path/to/your/upload/folder"
 
 async def save_file(file, upload_folder):
@@ -62,3 +69,54 @@ async def delete_image_from_db(image_id: str, user_id : str):
     
 
     return result
+
+
+
+def process_and_detect(image_path, model, output_folder):
+    """
+    Hàm xử lý hình ảnh: nhận diện, vẽ bounding box, và lưu ảnh kết quả.
+
+    Args:
+        image_path (str): Đường dẫn đến hình ảnh gốc.
+        model (YOLO): Mô hình YOLO đã được load.
+        output_folder (str): Thư mục lưu ảnh kết quả.
+
+    Returns:
+        tuple: (danh sách tên đối tượng, đường dẫn đến ảnh kết quả)
+    """
+    # Đọc ảnh bằng OpenCV
+    image = cv2.imread(image_path)
+    if image is None:
+        raise ValueError("Hình ảnh không hợp lệ hoặc không thể đọc.")
+
+    # Nhận diện bằng YOLO
+    results = model(image_path)
+    names = []
+    
+    for result in results:
+        for detection in result.boxes:
+            # Lấy thông tin từ bounding box
+            class_id = int(detection.cls)
+            class_name = model.names[class_id]
+            confidence = float(detection.conf)  # Chuyển tensor thành float
+            x1, y1, x2, y2 = map(int, detection.xyxy[0])  # Tọa độ bounding box
+
+            # Vẽ bounding box lên ảnh
+            cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)  # Màu xanh lá
+            cv2.putText(image, f"{class_name} {confidence:.2f}", 
+                        (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            
+            names.append(class_name)
+
+    # Lưu ảnh kết quả
+    result_image_path = os.path.join(output_folder, f"result_{os.path.basename(image_path)}")
+    cv2.imwrite(result_image_path, image)
+
+    # Loại bỏ trùng lặp trong danh sách tên
+    english_list = list(set(names))
+
+    # Dịch tên sang tiếng Việt
+    translator = GoogleTranslator(source="en", target="vi")
+    vietnamese_list = [translator.translate(word) for word in english_list]
+
+    return vietnamese_list, result_image_path
