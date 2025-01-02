@@ -13,6 +13,7 @@ const Recognize = () => {
     const [fileUploadReplace, setFileUploadReplace] = useState("");
     const [resultsUploadFile, setResultsUploadFile] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [resultImagePaths, setResultImagePaths] = useState([]);
     const navigate = useNavigate();
     
     const userID = localStorage.getItem("user_id");
@@ -62,6 +63,7 @@ const Recognize = () => {
             if(response.status === 200){
                 setFileUpload("");
                 setResultsUploadFile([...response.data.detected_items]);
+                setResultImagePaths([...response.data.result_image_paths]);
                 setFileUploadReplace(fileUpload);
                 message.success("Upload file success!");
             }
@@ -147,44 +149,45 @@ const Recognize = () => {
                     );
                 })}
             </div>
-            <div className="flex gap-2">
-                {resultsUploadFile.length > 0 && resultsUploadFile.map((result, index) => {
-                    return (
-                        <div className="w-[140px]" key={index}>
-                            <p>{result}</p>
-                        </div>
-                    );
-                })}
-            </div>
+            {/* <ul className="flex flex-col gap-2 list-disc pl-5">
+                {resultsUploadFile.length > 0 && resultsUploadFile.map((result, index) => (
+                    <li className="w-[140px]" key={index}>
+                    <p>{result}</p>
+                    </li>
+                ))}
+                </ul> */}
             <div className="flex gap-2">
                 <Button type="primary" onClick={() => { 
                     handleShowModal(); 
                 }}>
-                    Gợi ý!
+                    Chi tiết !
                 </Button>
             </div>
 
             {/* ------------------------Suggestion-------------------------- */}
             <Modal
-                title="Ảnh đã tải lên"
+                title="Ảnh đã nhận diện"
                 visible={isModalVisible}
-                onCancel={() => setIsModalVisible(false)} // Đóng Modal
+                onCancel={() => setIsModalVisible(false)}
                 footer={null}
-                width={800} // Tăng chiều rộng Modal
-                bodyStyle={{ maxHeight: "70vh", overflowY: "auto" }} // Giới hạn chiều cao, hỗ trợ cuộn
+                width={800}
+                bodyStyle={{ maxHeight: "70vh", overflowY: "auto" }}
             >
                 <div className="flex flex-wrap gap-6 justify-center">
-                    {fileUploadReplace.length > 0 &&
-                        fileUploadReplace.map((file, index) => (
+                    {resultImagePaths.length > 0 &&
+                        resultImagePaths.map((path, index) => (
                             <div
                                 key={index}
                                 className="flex flex-col items-center"
-                                style={{ width: "200px" }} // Tăng kích thước ảnh
+                                style={{ width: "200px" }}
                             >
                                 <img
-                                    src={URL.createObjectURL(file)}
-                                    alt={`uploaded-${index}`}
-                                    className="w-full h-auto rounded-md shadow-md"
+                                    src={`http://127.0.0.1:8000/${path.replace(/\\/g, "/")}`} // Sửa đường dẫn để hiển thị ảnh
+                                    alt={`result-${index}`}
+                                    style={{
+                                        maxWidth: "300px", // Tăng kích thước ảnh
+                                        height: "auto",    // Đảm bảo tỉ lệ ảnh
+                                    }}
                                 />
                             </div>
                         ))}

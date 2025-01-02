@@ -1,0 +1,34 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #1e40af; /* Màu nền xanh dương */
+}
+
+.header .auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.auth-btn {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.auth-btn:hover {
+  background-color: #2563eb;
+}
+
+.auth-btn.login-btn:hover {
+  background-color: #1d4ed8; /* Hiệu ứng hover cho Đăng nhập */
+}
+
+.auth-btn.register-btn:hover {
+  background-color: #16a34a; /* Hiệu ứng hover cho Đăng ký */
+}
