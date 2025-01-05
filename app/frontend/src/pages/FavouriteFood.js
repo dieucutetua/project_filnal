@@ -80,10 +80,15 @@ const FavouriteFood = () => {
                 >
                     <div className="food-details">
                         <p><strong>Tên món:</strong> {selectedFood.title}</p>
-                        <p><strong>Mô tả:</strong> {selectedFood.description || "Không có mô tả."}</p>
+                        <p><strong>Mô tả:</strong> 
+                            <span dangerouslySetInnerHTML={{ __html: selectedFood.description || "Không có mô tả." }} />
+                        </p>
                         <p><strong>Nguyên liệu:</strong> {selectedFood.ingredients.join(", ")}</p>
-                        <p><strong>Hướng dẫn:</strong> {selectedFood.instructions || "Không có hướng dẫn."}</p>
+                        <p><strong>Hướng dẫn:</strong>
+                            <span dangerouslySetInnerHTML={{ __html: selectedFood.instructions || "Không có hướng dẫn." }} />
+                        </p>
                     </div>
+
                 </Modal>
             )}
         </div>

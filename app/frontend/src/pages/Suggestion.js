@@ -140,20 +140,20 @@ const Suggestion = () => {
                             alt={selectedDish.title}
                             className="w-48 h-48 object-cover rounded-md mb-4 mx-auto"
                         />
-                        <p>{selectedDish.description || "Không có mô tả chi tiết."}</p>
+                        <p dangerouslySetInnerHTML={{ __html: selectedDish.description || "Không có mô tả chi tiết." }} />
                         <h3 className="font-medium mt-4">Nguyên liệu:</h3>
                         <ul className="list-disc pl-6">
                             {selectedDish.ingredients.map((ingredient, idx) => (
                                 <li key={idx}>{ingredient}</li>
                             ))}
                         </ul>
-            
+
                         {selectedDish.steps && (
                             <div>
                                 <h3 className="font-medium mt-4">Các bước:</h3>
                                 <ol className="list-decimal pl-6">
                                     {selectedDish.steps.split("\r\n").filter(step => step.trim() !== "").map((step, idx) => (
-                                        <li key={idx} className="ml-4">{step}</li>
+                                         <li key={idx} className="ml-4" dangerouslySetInnerHTML={{ __html: step }} />
                                     ))}
                                 </ol>
                             </div>

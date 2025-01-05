@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import axiosInstance from "../utils/axiosInstance"; 
+import axiosInstance from "../utils/axiosInstance";
 import imgdefault from '../img/bb.jpg';
-import { FaBackward,FaHeart  } from "react-icons/fa";
+import { FaBackward, FaHeart } from "react-icons/fa";
 
 
 const Home = () => {
-    const [dishes, setDishes] = useState([]); 
-    const [loading, setLoading] = useState(false); 
-    const [error, setError] = useState(null); 
-    const [randomDishes, setRandomDishes] = useState([]); 
-    const [selectedDish, setSelectedDish] = useState(null); 
-    const [saving, setSaving] = useState(false); 
+    const [dishes, setDishes] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [randomDishes, setRandomDishes] = useState([]);
+    const [selectedDish, setSelectedDish] = useState(null);
+    const [saving, setSaving] = useState(false);
     const [saveError, setSaveError] = useState(null);
     const [likedDishes, setLikedDishes] = useState(new Set());
     const user_id = localStorage.getItem("user_id")
-    
+
     // Hàm để gọi API và lấy tất cả món ăn
     const getAllDishes = async () => {
         setLoading(true);
@@ -55,7 +55,7 @@ const Home = () => {
         setSaveError(null);
         try {
             const response = await axiosInstance.post("/favourite_food/favourite", {
-                user_id: user_id, 
+                user_id: user_id,
                 food_id: dish.id || "N/A",
                 title: dish.title || "N/A",
                 recipe_url: dish.recipe_url || "N/A",
@@ -82,18 +82,18 @@ const Home = () => {
             setSaving(false);
         }
     };
-    const removeFavourite  = async (dish) => {
+    const removeFavourite = async (dish) => {
         try {
-            console.log("User ID:", user_id);    
-       
+            console.log("User ID:", user_id);
+
             console.log("Food ID:", dish.id);        // In ra food_id
-            const response = await axiosInstance.delete( 
+            const response = await axiosInstance.delete(
                 `http://127.0.0.1:8000/favourite_food/delete/${user_id}/${dish.id}`
             );
             alert("Hủy yêu thích thành công!");
             setLikedDishes((prevLiked) => {
                 const newLiked = new Set(prevLiked);
-                newLiked.delete(dish.id); 
+                newLiked.delete(dish.id);
                 return newLiked;
             });
         } catch (err) {
@@ -105,107 +105,106 @@ const Home = () => {
         getAllDishes();
     }, []);
     const handleDishClick = (dish) => {
-        setSelectedDish(dish); 
+        setSelectedDish(dish);
     };
 
     const handleBack = () => {
-        setSelectedDish(null);  
+        setSelectedDish(null);
     };
     return (
         <div className="p-8 w-full overflow-auto">
             {selectedDish ? (
-        
-        <div>
-            <button onClick={handleBack} className="text-blue-500 mb-4"><FaBackward className="icon"/>Quay lại</button>
-            <button
-                onClick={() => 
-                    likedDishes.has(selectedDish.id) 
-                    ? removeFavourite(selectedDish) 
-                    : saveFavourite(selectedDish)
-                }
-                className={`${
-                    likedDishes.has(selectedDish.id) ? 'bg-green-500' : 'bg-red-500'
-                } text-white px-4 py-2 rounded-lg flex items-center`}
-                disabled={saving}
-            >
-                <FaHeart className="mr-2" />
-                {saving 
-                    ? "Đang lưu..." 
-                    : (likedDishes.has(selectedDish.id) ? "Đã yêu thích" : "Lưu yêu thích")
-                }
-            </button>
 
-
-            <h1 className="text-2xl font-bold mb-4">{selectedDish.title}</h1>
-            <img
-                src={selectedDish.image || imgdefault}
-                alt={selectedDish.title}
-                className="w-48 h-48 object-cover rounded-md mb-4 mx-auto"
-            />
-            <p>{selectedDish.description || "Không có mô tả chi tiết."}</p>
-            <h3 className="font-medium mt-4">Nguyên liệu:</h3>
-            <ul className="list-disc pl-6">
-                {selectedDish.ingredients.map((ingredient, idx) => (
-                    <li key={idx}>{ingredient}</li>
-                ))}
-            </ul>
-
-            {selectedDish.steps && (
                 <div>
-                    <h3 className="font-medium mt-4">Các bước:</h3>
-                    <ol className="list-decimal pl-6">
-                        {selectedDish.steps.split("\r\n").filter(step => step.trim() !== "").map((step, idx) => (
-                            <li key={idx} className="ml-4">{step}</li>
+                    <button onClick={handleBack} className="text-blue-500 mb-4"><FaBackward className="icon" />Quay lại</button>
+                    <button
+                        onClick={() =>
+                            likedDishes.has(selectedDish.id)
+                                ? removeFavourite(selectedDish)
+                                : saveFavourite(selectedDish)
+                        }
+                        className={`${likedDishes.has(selectedDish.id) ? 'bg-green-500' : 'bg-red-500'
+                            } text-white px-4 py-2 rounded-lg flex items-center`}
+                        disabled={saving}
+                    >
+                        <FaHeart className="mr-2" />
+                        {saving
+                            ? "Đang lưu..."
+                            : (likedDishes.has(selectedDish.id) ? "Đã yêu thích" : "Lưu yêu thích")
+                        }
+                    </button>
+
+
+                    <h1 className="text-2xl font-bold mb-4">{selectedDish.title}</h1>
+                    <img
+                        src={selectedDish.image || imgdefault}
+                        alt={selectedDish.title}
+                        className="w-48 h-48 object-cover rounded-md mb-4 mx-auto"
+                    />
+                    <p dangerouslySetInnerHTML={{ __html: selectedDish.description || "Không có mô tả chi tiết." }} />
+                    <h3 className="font-medium mt-4">Nguyên liệu:</h3>
+                    <ul className="list-disc pl-6">
+                        {selectedDish.ingredients.map((ingredient, idx) => (
+                            <li key={idx}>{ingredient}</li>
                         ))}
-                    </ol>
+                    </ul>
+
+                    {selectedDish.steps && (
+                        <div>
+                            <h3 className="font-medium mt-4">Các bước:</h3>
+                            <ol className="list-decimal pl-6">
+                                {selectedDish.steps.split("\r\n").filter(step => step.trim() !== "").map((step, idx) => (
+                                     <li key={idx} className="ml-4" dangerouslySetInnerHTML={{ __html: step }} />
+                                ))}
+                            </ol>
+                        </div>
+                    )}
                 </div>
-            )}
-        </div>
-    ) : (
+            ) : (
 
-        <>
-            <h1 className="text-2xl font-bold mb-4">Món ăn ngẫu nhiên</h1>
+                <>
+                    <h1 className="text-2xl font-bold mb-4">Món ăn ngẫu nhiên</h1>
 
-            {loading && <p>Đang tải dữ liệu...</p>}
-            {error && <p className="text-red-500">{error}</p>}
+                    {loading && <p>Đang tải dữ liệu...</p>}
+                    {error && <p className="text-red-500">{error}</p>}
 
-            {!loading && randomDishes.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {randomDishes.map((dish, index) => (
-                        <div key={index} className="p-4 col-span-1 bg-white shadow rounded-lg flex flex-col items-center">
-                            <li
-                                    key={index}
-                                    className="p-4 bg-white shadow rounded-lg flex flex-col items-center h-full w-full"
-                                    onClick={() => handleDishClick(dish)} 
-                                >
-                                <img
-                                    src={dish.image || imgdefault}
-                                    alt={dish.title}
-                                    className="w-32 h-32 object-cover rounded-md mb-2"
-                                />
-                                <h2 className="text-lg font-medium text-center">{dish.title}</h2>
-                                {/* <p className="text-sm text-gray-600 text-center">
+                    {!loading && randomDishes.length > 0 && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            {randomDishes.map((dish, index) => (
+                                <div key={index} className="p-4 col-span-1 bg-white shadow rounded-lg flex flex-col items-center">
+                                    <li
+                                        key={index}
+                                        className="p-4 bg-white shadow rounded-lg flex flex-col items-center h-full w-full"
+                                        onClick={() => handleDishClick(dish)}
+                                    >
+                                        <img
+                                            src={dish.image || imgdefault}
+                                            alt={dish.title}
+                                            className="w-32 h-32 object-cover rounded-md mb-2"
+                                        />
+                                        <h2 className="text-lg font-medium text-center">{dish.title}</h2>
+                                        {/* <p className="text-sm text-gray-600 text-center">
                                     {dish.description || "Không có mô tả chi tiết."}
                                 </p> */}
-                                <ul className="text-sm mt-2 text-gray-800">
-                                    <h3 className="font-medium">Nguyên liệu:</h3>
-                                    {dish.ingredients.map((ingredient, idx) => (
-                                        <li key={idx} className="list-disc ml-4">
-                                            {ingredient}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
+                                        <ul className="text-sm mt-2 text-gray-800">
+                                            <h3 className="font-medium">Nguyên liệu:</h3>
+                                            {dish.ingredients.map((ingredient, idx) => (
+                                                <li key={idx} className="list-disc ml-4">
+                                                    {ingredient}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </li>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            )}
+                    )}
 
-            {!loading && !error && randomDishes.length === 0 && (
-                <p className="text-lg text-gray-500">Không có món ăn nào phù hợp.</p>
+                    {!loading && !error && randomDishes.length === 0 && (
+                        <p className="text-lg text-gray-500">Không có món ăn nào phù hợp.</p>
+                    )}
+                </>
             )}
-            </>
-    )}
         </div>
     );
 };
