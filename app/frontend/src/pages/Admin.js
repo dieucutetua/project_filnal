@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../utils/axiosInstance";
+import { FaTrash } from 'react-icons/fa'
 
 const Admin = () => {
   const [users, setUsers] = useState([]);
@@ -16,7 +17,7 @@ const Admin = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching users:", error);
-        setErrorMessage("There was an error fetching the users.");
+        setErrorMessage("Đã xảy ra lỗi khi tìm kiếm người dùng.");
         setLoading(false);
       }
     };
@@ -26,13 +27,19 @@ const Admin = () => {
   const handleDelete = async (email) => {
     try {
       await axiosInstance.delete(`admin/delete_user/${email}`);
-      setUsers(users.filter(user => user.email !== email));  // Cập nhật lại danh sách người dùng sau khi xóa
-      setSuccessMessage(`User with email ${email} has been deleted.`);
-      setErrorMessage(""); // Xóa thông báo lỗi (nếu có)
+      setUsers(users.filter(user => user.email !== email));  
+      setSuccessMessage(`Đã xóa ${email} `);
+      setErrorMessage(""); 
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
     } catch (error) {
       console.error("Error deleting user:", error);
-      setErrorMessage("There was an error deleting the user.");
-      setSuccessMessage(""); // Xóa thông báo thành công (nếu có)
+      setErrorMessage("Đã xảy ra lỗi khi xóa người dùng.");
+      setSuccessMessage(""); 
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
     }
   };
 
@@ -41,39 +48,50 @@ const Admin = () => {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>User Dashboard</h1>
-      
-      {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-      {successMessage && <div style={{ color: "green" }}>{successMessage}</div>}
+        <div style={{ padding: "20px", backgroundColor: "#f9fafb", borderRadius: "10px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
+        {/* <h1 style={{ fontSize: "2rem", marginBottom: "20px", textAlign: "center" }}>User Dashboard</h1> */}
+        
+        {errorMessage && <div style={{ color: "red", marginBottom: "20px", textAlign: "center" }}>{errorMessage}</div>}
+        {successMessage && <div style={{ color: "green", marginBottom: "20px", textAlign: "center" }}>{successMessage}</div>}
 
-      <table style={{ width: "100%", border: "1px solid #ddd", borderCollapse: "collapse" }}>
-        <thead style={{ backgroundColor: "#f4f4f4" }}>
-          <tr>
-            <th style={{ padding: "10px", textAlign: "left" }}>Username</th>
-            <th style={{ padding: "10px", textAlign: "left" }}>Email</th>
-            <th style={{ padding: "10px", textAlign: "left" }}>Created At</th>
-            <th style={{ padding: "10px", textAlign: "left" }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.email}>
-              <td style={{ padding: "10px" }}>{user.username}</td>
-              <td style={{ padding: "10px" }}>{user.email}</td>
-              <td style={{ padding: "10px" }}>{user.created_at}</td>
-              <td style={{ padding: "10px" }}>
-                <button 
-                  onClick={() => handleDelete(user.email)} 
-                  style={{ backgroundColor: "red", color: "white", border: "none", padding: "5px 10px", cursor: "pointer" }}>
-                  Delete
-                </button>
-              </td>
+        <table style={{ width: "100%", border: "1px solid #ddd", borderRadius: "8px", overflow: "hidden", borderCollapse: "collapse" }}>
+          <thead style={{ backgroundColor: "#4CAF50", color: "white", fontSize: "1.1rem" }}>
+            <tr>
+              <th style={{ padding: "12px", textAlign: "left" }}>Tên</th>
+              <th style={{ padding: "12px", textAlign: "left" }}>Email</th>
+              <th style={{ padding: "12px", textAlign: "left" }}>Ngày đăng kí</th>
+              <th style={{ padding: "12px", textAlign: "left" }}></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.email} style={{ borderBottom: "1px solid #ddd" }}>
+                <td style={{ padding: "12px" }}>{user.username}</td>
+                <td style={{ padding: "12px" }}>{user.email}</td>
+                <td style={{ padding: "12px" }}>{user.created_at}</td>
+                <td style={{ padding: "12px" }}>
+                  <button 
+                    onClick={() => handleDelete(user.email)} 
+                    style={{
+                      backgroundColor: "transparent", 
+                      color: "red", 
+                      border: "none", 
+                      cursor: "pointer", 
+                      fontSize: "1.5rem", 
+                      transition: "all 0.3s ease"
+                    }}
+                    onMouseOver={(e) => e.target.style.color = "#cc2e2e"}
+                    onMouseOut={(e) => e.target.style.color = "red"}
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
   );
 };
 

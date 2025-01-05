@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { GoPlus } from "react-icons/go";
+import { AiOutlineUpload, AiOutlineInfoCircle } from 'react-icons/ai'; 
 import { Button, message, Modal } from "antd";
 import { MdDelete } from "react-icons/md";
 import axiosInstance from "../utils/axiosInstance";
@@ -101,119 +102,126 @@ const Recognize = () => {
     };
 
     return (
-        <div className="p-8 flex flex-col gap-2">
-            <h1 className="text-xl font-medium">Ảnh cần nhận diện</h1>
-            <div className="flex flex-col gap-3">
-                <div className="flex gap-2">
-                    {fileUpload && fileUpload.length > 0 && fileUpload.map((file, index) => {
-                        return (
-                            <div className="custom-box-upload-file relative group" key={index}>
-                                <div className="rounded-full text-red-500 group-hover:opacity-100 opacity-0 right-2 top-2 absolute"
-                                     onClick={() => handleDeleteFileUpload(file.name)}>
-                                    <MdDelete size={25} />
-                                </div>
-                                <img src={URL.createObjectURL(file)} alt="upload-image" className="w-[140px] h-fit"/>
-                            </div>
-                        );
-                    })}
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleOnChangeUploadFile}                    
-                        id="upload-file"
-                        className="hidden"
-                        multiple
-                    />
-                    <label htmlFor="upload-file" className="custom-box-upload-file">
-                        Chọn ảnh
-                        <GoPlus />
-                    </label>
-                </div>
-                <Button
-                    style={{ width: "100px" }}
-                    type="primary"
-                    onClick={handleUpload}
-                    disabled={isUploading}
-                >
-                    {isUploading ? "Uploading..." : "Thêm ảnh"}
-                </Button>
-            </div>
-            <div className="flex gap-2">
-                {fileUploadReplace.length > 0 && fileUploadReplace.map((file, index) => {
-                    return (
-                        <div className="flex justify-center items-center flex-col" key={index}>
-                            <div className="custom-box-upload-file">
-                                <img src={URL.createObjectURL(file)} alt="upload-image" className="w-[140px] h-fit"/>
-                            </div>
+        <div className="p-8 flex flex-col gap-6 max-w-4xl mx-auto bg-white rounded-lg shadow-lg">
+        <h1 className="text-xl font-medium text-gray-800">Ảnh cần nhận diện</h1>
+        <div className="flex flex-col gap-4">
+            <div className="flex gap-3 items-center">
+                {fileUpload && fileUpload.length > 0 && fileUpload.map((file, index) => (
+                    <div className="relative group w-36 h-36 flex justify-center items-center" key={index}>
+                        <div
+                            className="absolute top-2 right-2 rounded-full text-red-500 group-hover:opacity-100 opacity-0 transition-opacity"
+                            onClick={() => handleDeleteFileUpload(file.name)}
+                        >
+                            <MdDelete size={25} />
                         </div>
-                    );
-                })}
-            </div>
-            {/* <ul className="flex flex-col gap-2 list-disc pl-5">
-                {resultsUploadFile.length > 0 && resultsUploadFile.map((result, index) => (
-                    <li className="w-[140px]" key={index}>
-                    <p>{result}</p>
-                    </li>
+                        <img src={URL.createObjectURL(file)} alt="upload-image" className="w-full h-full object-cover rounded-lg shadow-md"/>
+                    </div>
                 ))}
-                </ul> */}
-            <div className="flex gap-2">
-                <Button type="primary" onClick={() => { 
-                    handleShowModal(); 
-                }}>
-                    Chi tiết !
-                </Button>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleOnChangeUploadFile}
+                    id="upload-file"
+                    className="hidden"
+                    multiple
+                />
+                <label htmlFor="upload-file" className="custom-box-upload-file p-4 border-2 border-dashed rounded-lg text-center flex items-center justify-center cursor-pointer transition-all hover:bg-gray-100">
+                    Chọn ảnh <GoPlus className="ml-2"/>
+                </label>
             </div>
-
-            {/* ------------------------Suggestion-------------------------- */}
-            <Modal
-                title="Ảnh đã nhận diện"
-                visible={isModalVisible}
-                onCancel={() => setIsModalVisible(false)}
-                footer={null}
-                width={800}
-                bodyStyle={{ maxHeight: "70vh", overflowY: "auto" }}
+            <div className="flex justify-center gap-6 mt-4">
+            <Button
+                style={{
+                    width: "150px",
+                    fontSize: "16px",
+                    borderRadius: "8px",
+                    padding: "10px 20px",
+                }}
+                type="primary"
+                onClick={handleUpload}
+                disabled={isUploading}
+                className="transition-all duration-300 ease-in-out transform hover:scale-105 disabled:bg-gray-400"
+                icon={<AiOutlineUpload />}
             >
-                <div className="flex flex-wrap gap-6 justify-center">
-                    {resultImagePaths.length > 0 &&
-                        resultImagePaths.map((path, index) => (
-                            <div
-                                key={index}
-                                className="flex flex-col items-center"
-                                style={{ width: "200px" }}
-                            >
-                                <img
-                                    src={`http://127.0.0.1:8000/${path.replace(/\\/g, "/")}`} // Sửa đường dẫn để hiển thị ảnh
-                                    alt={`result-${index}`}
-                                    style={{
-                                        maxWidth: "300px", // Tăng kích thước ảnh
-                                        height: "auto",    // Đảm bảo tỉ lệ ảnh
-                                    }}
-                                />
-                            </div>
-                        ))}
+                {isUploading ? "Uploading..." : "Thêm ảnh"}
+            </Button>
+            </div>
+        </div>
+    
+        <div className="flex gap-3 mt-6">
+            {fileUploadReplace.length > 0 && fileUploadReplace.map((file, index) => (
+                <div key={index} className="flex justify-center items-center flex-col">
+                    <div className="custom-box-upload-file">
+                        <img src={URL.createObjectURL(file)} alt="upload-image" className="w-[140px] h-fit rounded-lg"/>
+                    </div>
                 </div>
-                <div className="mt-6">
-                    <h3 className="text-lg font-semibold">Kết quả nhận diện</h3>
-                    <ul className="list-disc ml-5">
-                        {resultsUploadFile.length > 0 &&
-                            resultsUploadFile.map((result, index) => (
-                                <li key={index} className="mt-1 text-lg">
-                                    {result}
-                                </li>
-                            ))}
-                    </ul>
-                </div>
+            ))}
+        </div>
+    
+        <div className="mt-6 flex justify-center gap-6">
+        <Button
+            type="primary"
+            onClick={handleShowModal}
+            className="transition-all duration-300 ease-in-out transform hover:scale-105"
+            style={{
+                width: "150px",
+                fontSize: "16px",
+                borderRadius: "8px",
+                padding: "10px 20px",
+            }}
+            icon={<AiOutlineInfoCircle />}
+        >
+            Chi tiết !
+        </Button>
+    </div>
+    
+        {/* ------------------------Suggestion-------------------------- */}
+        <Modal
+            title="Ảnh đã nhận diện"
+            visible={isModalVisible}
+            onCancel={() => setIsModalVisible(false)}
+            footer={null}
+            width={800}
+            bodyStyle={{ maxHeight: "70vh", overflowY: "auto" }}
+        >
+            <div className="flex flex-wrap gap-6 justify-center">
+                {resultImagePaths.length > 0 && resultImagePaths.map((path, index) => (
+                    <div key={index} className="flex flex-col items-center" style={{ width: "200px" }}>
+                        <img
+                            src={`http://127.0.0.1:8000/${path.replace(/\\/g, "/")}`} // Sửa đường dẫn để hiển thị ảnh
+                            alt={`result-${index}`}
+                            className="w-full h-auto rounded-lg shadow-md"
+                            style={{
+                                maxWidth: "300px",
+                                height: "auto",
+                            }}
+                        />
+                    </div>
+                ))}
+            </div>
+    
+            <div className="mt-6">
+                <h3 className="text-lg font-semibold">Kết quả nhận diện</h3>
+                <ul className="list-disc ml-5 text-lg">
+                    {resultsUploadFile.length > 0 && resultsUploadFile.map((result, index) => (
+                        <li key={index} className="mt-1 text-lg text-gray-700">
+                            {result}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+    
+            <div className="mt-4 flex justify-center">
                 <Button
                     type="primary"
-                    onClick={() => {
-                        handleNavigateWithSearchParams(); // Gọi hàm chuyển hướng
-                    }}
+                    onClick={handleNavigateWithSearchParams} // Gọi hàm chuyển hướng
                 >
                     Xem gợi ý!
                 </Button>
-            </Modal>
-        </div>
-    );
+            </div>
+        </Modal>
+    </div>
+        );
 };
 
 export default Recognize;

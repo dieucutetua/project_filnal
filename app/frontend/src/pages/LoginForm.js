@@ -59,49 +59,50 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="container-login-form"
-    style={{
-      backgroundImage: `url(${bgr_image})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      height: "100vh"
-    }}>
-      <div className="container-login">
-        <div className="header">
-          <div className="text">Login</div>
-          <div className="underline"></div>
+      <div className="container-login-form"
+      style={{
+        backgroundImage: `url(${bgr_image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh"
+      }}>
+    <div className="container-login">
+      <div className="header">
+        <div className="text">Login</div>
+        <div className="underline"></div>
+      </div>
+      <div className="inputs">
+        <div className="input">
+          <MdEmail size={sizeIcon} />
+          <input
+            type="email"
+            placeholder="Email Id"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
-        <div className="inputs">
-          <div className="input">
-            <MdEmail size={sizeIcon} />
-            <input
-              type="email"
-              placeholder="Email Id"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="input">
-            <RiLockPasswordLine size={sizeIcon} />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-        </div>
-        <button className="submit" onClick={handleLogin}>
-          Login
-        </button>
-        <div className="register-text">
-          <p>You don't have an account yet?</p>
-          <a className="register-link" onClick={handleClickToRegister}>
-            Register
-          </a>
+        <div className="input">
+          <RiLockPasswordLine size={sizeIcon} />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
       </div>
+      <button className="submit" onClick={handleLogin}>
+        Login
+      </button>
+      <div className="register-text">
+        <p>You don't have an account yet?</p>
+        <a className="register-link" onClick={handleClickToRegister}>
+          Register
+        </a>
+      </div>
     </div>
+    </div>
+
   );
 };
 

@@ -113,37 +113,51 @@ const Home = () => {
     };
     return (
         <div className="p-8 w-full overflow-auto">
-            {selectedDish ? (
+                {selectedDish ? (
 
-                <div>
-                    <button onClick={handleBack} className="text-blue-500 mb-4"><FaBackward className="icon" />Quay lại</button>
-                    <button
-                        onClick={() =>
-                            likedDishes.has(selectedDish.id)
-                                ? removeFavourite(selectedDish)
-                                : saveFavourite(selectedDish)
-                        }
-                        className={`${likedDishes.has(selectedDish.id) ? 'bg-green-500' : 'bg-red-500'
-                            } text-white px-4 py-2 rounded-lg flex items-center`}
-                        disabled={saving}
-                    >
-                        <FaHeart className="mr-2" />
-                        {saving
-                            ? "Đang lưu..."
-                            : (likedDishes.has(selectedDish.id) ? "Đã yêu thích" : "Lưu yêu thích")
-                        }
-                    </button>
+                <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-lg">
+                    <div className="flex justify-between items-center mb-4">
+                        <button
+                            onClick={handleBack}
+                            className="text-blue-500 hover:text-blue-700 transition-colors"
+                        >
+                            <FaBackward className="icon inline-block" />
+                            Quay lại
+                        </button>
 
+                        <button
+                            onClick={() =>
+                                likedDishes.has(selectedDish.id)
+                                    ? removeFavourite(selectedDish)
+                                    : saveFavourite(selectedDish)
+                            }
+                            className={`${
+                                likedDishes.has(selectedDish.id) ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'
+                            } text-white px-6 py-3 rounded-lg flex items-center justify-center transition-colors disabled:opacity-50`}
+                            disabled={saving}
+                        >
+                            <FaHeart className="mr-2" />
+                            {saving
+                                ? "Đang lưu..."
+                                : likedDishes.has(selectedDish.id)
+                                ? "Đã yêu thích"
+                                : "Lưu yêu thích"
+                            }
+                        </button>
+                    </div>
 
-                    <h1 className="text-2xl font-bold mb-4">{selectedDish.title}</h1>
+                    <h1 className="text-4xl font-semibold text-gray-800 mt-6">{selectedDish.title}</h1>
+                    
                     <img
                         src={selectedDish.image || imgdefault}
                         alt={selectedDish.title}
-                        className="w-48 h-48 object-cover rounded-md mb-4 mx-auto"
+                        className="w-64 h-auto object-contain rounded-lg mt-4 mb-6 mx-auto"
                     />
-                    <p dangerouslySetInnerHTML={{ __html: selectedDish.description || "Không có mô tả chi tiết." }} />
-                    <h3 className="font-medium mt-4">Nguyên liệu:</h3>
-                    <ul className="list-disc pl-6">
+                    
+                    <p dangerouslySetInnerHTML={{ __html: selectedDish.description || "Không có mô tả chi tiết." }} className="text-lg text-gray-700 mb-6" />
+                    
+                    <h3 className="text-2xl font-medium text-gray-800 mt-6">Nguyên liệu:</h3>
+                    <ul className="list-disc pl-6 space-y-2 text-lg text-gray-700">
                         {selectedDish.ingredients.map((ingredient, idx) => (
                             <li key={idx}>{ingredient}</li>
                         ))}
@@ -151,15 +165,17 @@ const Home = () => {
 
                     {selectedDish.steps && (
                         <div>
-                            <h3 className="font-medium mt-4">Các bước:</h3>
-                            <ol className="list-decimal pl-6">
+                            <h3 className="text-2xl font-medium text-gray-800 mt-6">Các bước:</h3>
+                            <ol className="list-decimal pl-6 space-y-2 text-lg text-gray-700">
                                 {selectedDish.steps.split("\r\n").filter(step => step.trim() !== "").map((step, idx) => (
-                                     <li key={idx} className="ml-4" dangerouslySetInnerHTML={{ __html: step }} />
+                                    <li key={idx} className="ml-4" dangerouslySetInnerHTML={{ __html: step }} />
                                 ))}
                             </ol>
                         </div>
                     )}
                 </div>
+
+
             ) : (
 
                 <>
@@ -180,20 +196,21 @@ const Home = () => {
                                         <img
                                             src={dish.image || imgdefault}
                                             alt={dish.title}
-                                            className="w-32 h-32 object-cover rounded-md mb-2"
+                                            className="w-32 h-32 object-contain rounded-md mb-2"
                                         />
                                         <h2 className="text-lg font-medium text-center">{dish.title}</h2>
                                         {/* <p className="text-sm text-gray-600 text-center">
                                     {dish.description || "Không có mô tả chi tiết."}
                                 </p> */}
-                                        <ul className="text-sm mt-2 text-gray-800">
-                                            <h3 className="font-medium">Nguyên liệu:</h3>
-                                            {dish.ingredients.map((ingredient, idx) => (
-                                                <li key={idx} className="list-disc ml-4">
-                                                    {ingredient}
-                                                </li>
-                                            ))}
-                                        </ul>
+                                        <ul className="text-sm mt-2 text-gray-800 max-h-40 overflow-y-auto">
+                                        <h3 className="font-medium">Nguyên liệu:</h3>
+                                        {dish.ingredients.map((ingredient, idx) => (
+                                            <li key={idx} className="list-disc ml-4">
+                                                {ingredient}
+                                            </li>
+                                        ))}
+                                    </ul>
+
                                     </li>
                                 </div>
                             ))}

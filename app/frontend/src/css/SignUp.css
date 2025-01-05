@@ -1,17 +1,28 @@
-/* Container của form login */
-.container-login-form {
+/* Container của form register */
+.container-register-form {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f3f4f6;
-  /* background-image: url(${bgr_image}); */
+  background-color: #f3f4f6; /* Màu nền nhẹ nhàng */
   background-size: cover;
   background-position: center;
   position: relative;
 }
 
-.container-login-form::before {
+/* Container chính của form */
+.container-register {
+  background-color: #fff;
+  width: 100%;
+  max-width: 30%;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.container-register:hover {
+  transform: scale(1.02);
+}
+.container-register-form::before {
   content: '';
   position: absolute;
   top: 0;
@@ -20,21 +31,6 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.4); /* Mờ hình nền */
   z-index: -1;
-}
-
-/* Container chính của form */
-.container-login {
-  background-color: #fff;
-  width: 100%;
-  max-width: 400px; /* Đặt chiều rộng cố định cho desktop */
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.container-login:hover {
-  transform: scale(1.02);
 }
 
 /* Header của form */
@@ -47,7 +43,6 @@
   font-size: 2rem;
   font-weight: bold;
   color: #333;
-  text-transform: uppercase;
 }
 
 .header .underline {
@@ -58,7 +53,6 @@
   margin-top: 5px;
 }
 
-/* Các trường nhập (input) */
 .inputs .input {
   display: flex;
   align-items: center;
@@ -93,7 +87,8 @@
   transition: border-color 0.3s ease;
 }
 
-/* Button login */
+
+/* Button register */
 .submit {
   width: 100%;
   padding: 12px;
@@ -111,7 +106,7 @@
   transform: scale(1.05);
 }
 
-/* Text và link đăng ký */
+/* Text và link đăng nhập */
 .register-text {
   text-align: center;
   margin-top: 15px;
@@ -126,29 +121,8 @@
   font-size: 0.9rem;
   color: #1abc9c;
   text-decoration: none;
-  font-weight: bold;
 }
 
 .register-text .register-link:hover {
   text-decoration: underline;
-}
-
-/* Responsive: Xử lý trên các thiết bị di động */
-@media (max-width: 768px) {
-  .container-login {
-    max-width: 90%;
-    padding: 20px;
-  }
-  
-  .header .text {
-    font-size: 1.5rem;
-  }
-
-  .inputs .input input {
-    font-size: 0.9rem;
-  }
-
-  .submit {
-    font-size: 1rem;
-  }
 }

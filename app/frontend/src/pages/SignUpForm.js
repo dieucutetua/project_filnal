@@ -6,6 +6,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { message } from "antd";
 import axiosInstance from "../utils/axiosInstance";
 import bgr_image from "../components/assets/bgr_image.jpg"
+import '../css/SignUp.css'
 
 const SignUpForm = () => {
   const sizeIcon = 25;
@@ -40,14 +41,16 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="container-login-form"
-    style={{
-      backgroundImage: `url(${bgr_image})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      height: "100vh"
-    }}>
-      <div className="container-login ">
+    <div
+      className="container-register-form"
+      style={{
+        backgroundImage: `url(${bgr_image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+      }}
+    >
+      <div className="container-register">
         <div className="header">
           <div className="text">Register</div>
           <div className="underline"></div>
@@ -85,7 +88,7 @@ const SignUpForm = () => {
           Register
         </button>
         <div className="register-text">
-          <p>You already have an account ?</p>
+          <p>You already have an account?</p>
           <a className="register-link" onClick={handleClickToLogin}>
             Login
           </a>

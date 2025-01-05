@@ -26,7 +26,7 @@ const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Header />
+        {/* <Header /> */}
         <Routes>
           {/* Trang khách vãng lai với Sidebar */}
           <Route path="/" element={<GuestPage />} />

@@ -2,8 +2,7 @@
   padding: 30px;
   background-color: #f9f9f9;
   border-radius: 10px;
-  
-
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bóng nhẹ cho container */
 }
 
 h3 {
@@ -12,11 +11,16 @@ h3 {
   font-weight: bold;
   color: #333;
   margin-bottom: 30px;
+  transition: color 0.3s ease-in-out;
+}
+
+h3:hover {
+  color: #007bff; /* Màu thay đổi khi hover */
 }
 
 .img-list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   margin-bottom: 20px;
 }
@@ -33,27 +37,32 @@ h3 {
   text-align: center;
   padding: 20px;
   transition: transform 0.3s, box-shadow 0.3s;
-  min-height: 300px; /* Đảm bảo card ảnh có chiều cao tối thiểu */
+  min-height: 300px;
+}
+
+.img-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .image-preview {
-  width: 100%;
-  height: 200px; /* Cố định chiều cao cho ảnh */
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 8px;
+  margin: 0 auto;
+  display: block;
+  transition: transform 0.3s ease-in-out;
 }
 
-.image-time,
-.image-detected {
-  margin: 10px 0;
-  color: #555;
-  font-size: 14px;
+.image-preview:hover {
+  transform: scale(1.05); /* Tăng kích thước hình ảnh khi hover */
 }
 
 .button-container {
   display: flex;
-  gap: 10px;  /* Tạo khoảng cách giữa các nút */
-  justify-content: flex-start; /* Căn trái hoặc có thể căn giữa nếu cần */
+  gap: 10px;
+  justify-content: center;
 }
 
 .delete-button,
@@ -65,16 +74,13 @@ h3 {
   margin: 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-.delete-button {
-  background-color: #ff4d4f;
+  transition: background-color 0.3s ease-in-out, transform 0.3s, box-shadow 0.3s;
 }
 
 .delete-button:hover {
   background-color: #ff3333;
   transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .suggestion-button {
@@ -84,12 +90,12 @@ h3 {
 .suggestion-button:hover {
   background-color: #33cc66;
   transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .pagination-controls {
   display: flex;
-  justify-content: flex-end; /* Căn phải phân trang */
+  justify-content: center;
   align-items: center;
   margin-top: 30px;
   gap: 10px;
@@ -101,7 +107,7 @@ h3 {
   border: 1px solid #ddd;
   background-color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s, font-size 0.3s;
   font-size: 16px;
 }
 
@@ -113,6 +119,7 @@ h3 {
 
 .pagination-controls button:hover {
   background-color: #f0f0f0;
+  transform: scale(1.05);
 }
 
 .pagination-controls button:disabled {

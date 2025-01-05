@@ -117,7 +117,7 @@ const GuestPage = () => {
                     <img
                         src={selectedDish.image_url || imgdefault}
                         alt={selectedDish.title}
-                        className="w-full h-72 object-cover rounded-md mb-4"
+                        className="w-full h-72 object-contain rounded-md mb-4"
                     />
                     <p>{selectedDish.description || "Không có mô tả chi tiết."}</p>
                     <h3 className="font-medium mt-4">Nguyên liệu:</h3>
@@ -156,7 +156,7 @@ const GuestPage = () => {
                                         <img
                                             src={dish.image_url || imgdefault}
                                             alt={dish.title}
-                                            className="w-32 h-32 object-cover rounded-md mb-2"
+                                            className="w-32 h-32 object-contain rounded-md mb-2"
                                         />
                                         <h2 className="text-lg font-medium text-center">{dish.title}</h2>
                                         <p className="text-sm text-gray-600 text-center">
