@@ -31,28 +31,24 @@
 
 /* Tên món ăn */
 .food-item h4 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
-  flex-grow: 1;
-  text-align: center; /* Canh giữa tên món */
+  text-align: center;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* Ngăn tên món ăn quá dài */
 }
 
-/* Hiển thị ảnh món ăn */
 .food-item img {
-  width: 100%;
+  width: 80%;
+
   height: 180px;
-  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+  object-fit: cover;
   border-radius: 8px;
   margin-bottom: 10px;
 }
 
-Nút xem chi tiết
-.food-item button {
+Nút xem chi tiết .food-item button {
   /* background-color: #007bff; */
   color: #fff;
   padding: 8px 15px;
@@ -83,16 +79,16 @@ Nút xem chi tiết
 .food-details p strong {
   color: #007bff;
 }
-.select-button{ 
-    background-color: #4d77ff;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    margin: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-  }
+.select-button {
+  background-color: #4d77ff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
 
 .delete-button {
   background-color: #ff4d4f;

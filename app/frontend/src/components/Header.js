@@ -22,3 +22,10 @@ const Header = () => {
 };
 
 export default Header;
+{/* <div className="flex justify-between w-full mb-4">
+<div className="text-2xl font-semibold text-gray-800">MEKONGAI</div>
+<div className="flex space-x-4">
+  <button className="text-sm text-blue-600">Login</button>
+  <button className="text-sm text-blue-600">Sign Up</button>
+</div>
+</div> */}

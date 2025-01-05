@@ -1,0 +1,66 @@
+[33m25c7a65a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m4f0d6bba[m HEAD@{1}: reset: moving to HEAD~2
+[33mfb363036[m HEAD@{2}: commit: fixErGit
+[33m944ab74a[m HEAD@{3}: commit: fixGit
+[33m4f0d6bba[m HEAD@{4}: commit: [fixBug] Favourite
+[33m25c7a65a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{5}: commit: [Update]
+[33m5ff01d22[m HEAD@{6}: commit: [Add] BoxForImage
+[33m34427763[m HEAD@{7}: commit: updateForm
+[33m2eb4faee[m HEAD@{8}: commit: [Commit] Bổ sung FE
+[33m13459f2d[m HEAD@{9}: commit: [ChangeModel]
+[33m6710ffde[m HEAD@{10}: commit: [Update] Hoàn thiện chức năng
+[33m775675e0[m HEAD@{11}: commit: [Update] Home
+[33mc6bb0a21[m HEAD@{12}: commit: [Deign] FormHistories+Login
+[33m54fdc7ac[m HEAD@{13}: commit: [Add] FormSuggestion_DeatailFood
+[33m556290c0[m HEAD@{14}: commit: [Update] FormSuggestion
+[33m9c5e8773[m HEAD@{15}: commit: [update] designForm+searchAPI
+[33m5436a725[m HEAD@{16}: commit: [Add] repcipes__db
+[33mc330c0f3[m HEAD@{17}: commit: [Update] formSugess
+[33m39aeaf63[m HEAD@{18}: commit: [Add] FormFavouriteFood
+[33m7183de4b[m HEAD@{19}: commit: [Update] API_Food_Items
+[33m9d633d5b[m HEAD@{20}: commit: [Update] FILEREADME
+[33mf8d17412[m HEAD@{21}: commit: [Update] FileReadme+requirements.txt
+[33mb0a32676[m HEAD@{22}: commit: [Update] FormSuggestions
+[33mc9b2d188[m HEAD@{23}: commit: [Update] testForm
+[33mff4dc2b2[m[33m ([m[1;31morigin/feature/dev[m[33m, [m[1;32mfeature/dev[m[33m)[m HEAD@{24}: reset: moving to ff4dc2b2ea0457f744b33e3590a33681e8508410
+[33m4da676aa[m HEAD@{25}: checkout: moving from feature/dev to main
+[33mff4dc2b2[m[33m ([m[1;31morigin/feature/dev[m[33m, [m[1;32mfeature/dev[m[33m)[m HEAD@{26}: cherry-pick: [Update] DeleteItemRecog
+[33mbb80c045[m HEAD@{27}: cherry-pick: Add .gitignore
+[33m116699e6[m HEAD@{28}: cherry-pick: [Add] suggestionsAPI
+[33m1bf9f5a8[m HEAD@{29}: cherry-pick: Add .gitignore
+[33mb44f6bcd[m HEAD@{30}: cherry-pick: [update] Thay doi tieng Viet
+[33m8151ccc4[m HEAD@{31}: cherry-pick: [Update] update upload_form
+[33m35db1df1[m HEAD@{32}: cherry-pick: [Update] : Update recognForm
+[33m28c6e7de[m HEAD@{33}: cherry-pick: [Add] update login
+[33m8cf37b47[m HEAD@{34}: rebase (finish): returning to refs/heads/feature/dev
+[33m8cf37b47[m HEAD@{35}: rebase (squash): [Add] update css
+[33m7e6ca78c[m HEAD@{36}: rebase (reword): [Add] update css
+[33m3452431c[m HEAD@{37}: rebase: fast-forward
+[33m5b201494[m HEAD@{38}: rebase (start): checkout 5b201494ae19a0093c36b029134454020340b995
+[33m181233a1[m HEAD@{39}: rebase (finish): returning to refs/heads/feature/dev
+[33m181233a1[m HEAD@{40}: rebase (squash): fix login form and register fomr
+[33ma0a78334[m HEAD@{41}: rebase (reword): fix login form and register fomr
+[33m7b88d698[m HEAD@{42}: rebase: fast-forward
+[33m3452431c[m HEAD@{43}: rebase (start): checkout 3452431c660528855bfc2156de632ac6ae5a5221
+[33m2758f79a[m HEAD@{44}: reset: moving to 2758f79a61d4d352e2f778baa408ae4d818d70e7
+[33m3452431c[m HEAD@{45}: checkout: moving from main to feature/dev
+[33m4da676aa[m HEAD@{46}: checkout: moving from f4c086711913fa885f9436900afaaecbebba6b61 to main
+[33mf4c08671[m HEAD@{47}: checkout: moving from main to f4c086711913fa885f9436900afaaecbebba6b61
+[33m4da676aa[m HEAD@{48}: commit: [Update] DeleteItemRecog
+[33m0227f383[m HEAD@{49}: commit: Add .gitignore
+[33m5af0a5ae[m HEAD@{50}: commit: [Add] suggestionsAPI
+[33mad1c7a97[m HEAD@{51}: commit: Add .gitignore
+[33m64852473[m HEAD@{52}: commit: [update] Thay doi tieng Viet
+[33m02b7f7a8[m HEAD@{53}: commit: [Update] update upload_form
+[33m6b55d030[m HEAD@{54}: commit: [Update] : Update recognForm
+[33mf2f2ae7c[m HEAD@{55}: commit: [Add] update login
+[33m60cd4a07[m HEAD@{56}: pull origin main: Fast-forward
+[33m3452431c[m HEAD@{57}: commit: [Add] update css
+[33m5b201494[m HEAD@{58}: rebase (finish): returning to refs/heads/main
+[33m5b201494[m HEAD@{59}: rebase (start): checkout 5b201494ae19a0093c36b029134454020340b995
+[33m49964aa6[m HEAD@{60}: reset: moving to HEAD
+[33m49964aa6[m HEAD@{61}: rebase (finish): returning to refs/heads/main
+[33m49964aa6[m HEAD@{62}: rebase (continue): [Add] Update code and assets
+[33mf4c08671[m HEAD@{63}: rebase (start): checkout f4c086711913fa885f9436900afaaecbebba6b61
+[33m7197ffca[m HEAD@{64}: commit: [Add] Update code and assets
+[33m44587b7f[m HEAD@{65}: clone: from https://github.com/dieucutetua/project_filnal.git

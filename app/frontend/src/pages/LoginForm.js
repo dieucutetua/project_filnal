@@ -21,24 +21,35 @@ const LoginForm = () => {
       return;
     }
     try {
-      const response = await axiosInstance.post("users/login/", {
-        email,
-        password,
-      });
-      if (response.status === 200) {
-        if (response.data.user_id) {
-          localStorage.setItem("user_id", response.data.user_id);
-        }
-        if (response.data.email) {
-          localStorage.setItem("email", response.data.email);
-        }
-        login();
-        message.success("Login success!");
+      if (email === "admin@email.com" && password === "admin") {
+        message.success("Welcome, Admin!");
+        localStorage.setItem("user_id", "admin");
+        localStorage.setItem("email", "admin@email.com");
+        login("admin@email.com", true); // Đăng nhập là admin
         navigate("/home");
+        return;
+      } else {
+        const response = await axiosInstance.post("users/login/", {
+          email,
+          password,
+        });
+  
+        if (response.status === 200) {
+          if (response.data.user_id) {
+            localStorage.setItem("user_id", response.data.user_id);
+          }
+          if (response.data.email) {
+            localStorage.setItem("email", response.data.email);
+          }
+  
+          login(response.data.email, response.data.email === "admin@email.com"); // Truyền thông tin người dùng và kiểm tra admin
+          message.success("Login success!");
+          navigate("/home");
+        }
+        console.log("Login successful", response);
       }
-      console.log("Login successful", response);
     } catch (error) {
-      message.error("Login failt!");
+      message.error("Login failed!");
       console.error("Login error", error);
     }
   };

@@ -16,17 +16,18 @@ import SignUpForm from "./pages/SignUpForm";
 import Suggestion from "./pages/Suggestion";
 import GuestPage from './pages/GuestPage'; // Trang khách vãng lai
 import Header from "./components/Header";
+import Admin from "./pages/Admin";
 import "./App.css";
 import { AuthContext, AuthProvider } from "./common/AuthContext";
 import { message } from "antd";
 
+// App Component
 const App = () => {
   return (
     <AuthProvider>
       <Router>
-      <Header /> 
+        <Header />
         <Routes>
-        
           {/* Trang khách vãng lai với Sidebar */}
           <Route path="/" element={<GuestPage />} />
           <Route path="/login" element={<LoginForm />} />
@@ -49,6 +50,9 @@ const App = () => {
                       <Route path="/suggestion" element={<Suggestion />} />
                       <Route path="/favourite_food" element={<FavouriteFood />} />
                       <Route path="/account" element={<Accounts />} />
+                      {/* AdminRoute bảo vệ trang admin */}
+                      {/* <Route path="/admin" element={<Admin />} /> */}
+                      <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
                     </Routes>
                   </div>
                 </div>
@@ -61,16 +65,33 @@ const App = () => {
   );
 };
 
-// PrivateRoute Component
-const PrivateRoute = ({ children }) => {
-  const { isLoggedIn } = React.useContext(AuthContext);
-  
+const AdminRoute = ({ children }) => {
+  const { isLoggedIn, isAdmin } = React.useContext(AuthContext);
+
+  // Kiểm tra xem người dùng đã đăng nhập chưa
   if (!isLoggedIn) {
     message.warning("Vui lòng đăng nhập để truy cập trang này.");
     return <Navigate to="/login" />;
   }
 
+  // Kiểm tra quyền admin
+  if (!isAdmin) {
+    message.warning("Bạn không có quyền truy cập trang này.");
+    return <Navigate to="/home" />;
+  }
+
   return children;
 };
 
+// PrivateRoute Component
+const PrivateRoute = ({ children }) => {
+  const { isLoggedIn } = React.useContext(AuthContext);
+
+  // Kiểm tra người dùng đã đăng nhập chưa
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+};
 export default App;

@@ -5,14 +5,16 @@ import { FaBackward,FaHeart  } from "react-icons/fa";
 
 
 const Home = () => {
-    const [dishes, setDishes] = useState([]); // Lưu trữ danh sách món ăn
-    const [loading, setLoading] = useState(false); // Biến trạng thái tải dữ liệu
-    const [error, setError] = useState(null); // Biến trạng thái lỗi
-    const [randomDishes, setRandomDishes] = useState([]); // Món ăn ngẫu nhiên
+    const [dishes, setDishes] = useState([]); 
+    const [loading, setLoading] = useState(false); 
+    const [error, setError] = useState(null); 
+    const [randomDishes, setRandomDishes] = useState([]); 
     const [selectedDish, setSelectedDish] = useState(null); 
-    const [saving, setSaving] = useState(false); // Trạng thái lưu yêu thích
+    const [saving, setSaving] = useState(false); 
     const [saveError, setSaveError] = useState(null);
+    const [likedDishes, setLikedDishes] = useState(new Set());
     const user_id = localStorage.getItem("user_id")
+    
     // Hàm để gọi API và lấy tất cả món ăn
     const getAllDishes = async () => {
         setLoading(true);
@@ -53,32 +55,49 @@ const Home = () => {
         setSaveError(null);
         try {
             const response = await axiosInstance.post("/favourite_food/favourite", {
-                
-                user_id: user_id, // Thay bằng ID người dùng hiện tại
-                name: dish.title,
-                source: dish.source || "N/A",
-                preptime: dish.preptime || 0,
-                waittime: dish.waittime || 0,
-                cooktime: dish.cooktime || 0,
-                servings: dish.servings || 1,
-                comments: "",
-                calories: dish.calories || 0,
-                fat: dish.fat || 0,
-                satfat: dish.satfat || 0,
-                carbs: dish.carbs || 0,
-                fiber: dish.fiber || 0,
-                sugar: dish.sugar || 0,
-                protein: dish.protein || 0,
-                instructions: dish.steps || "N/A",
+                user_id: user_id, 
+                food_id: dish.id || "N/A",
+                title: dish.title || "N/A",
+                recipe_url: dish.recipe_url || "N/A",
+                description: dish.description || "N/A",
+                image: dish.image || "N/A",
+                instructions: dish.instructions || "N/A",
+                steps: dish.steps || "N/A",
                 ingredients: dish.ingredients || [],
-                tags: dish.tags || []
             });
             alert("Lưu món ăn thành công!");
+            setLikedDishes((prevLiked) => new Set(prevLiked.add(dish.id)));
         } catch (err) {
             console.error("Error saving favourite dish:", err);
+            if (err.response) {
+                // This will capture server errors (status codes 4xx, 5xx)
+                console.error("Response error data:", err.response.data);
+                console.error("Response error status:", err.response.status);
+            } else {
+                // This will capture network or other errors
+                console.error("Network error or unexpected error:", err.message);
+            }
             setSaveError("Không thể lưu món ăn yêu thích. Vui lòng thử lại.");
         } finally {
             setSaving(false);
+        }
+    };
+    const removeFavourite  = async (dish) => {
+        try {
+            console.log("User ID:", user_id);    
+       
+            console.log("Food ID:", dish.id);        // In ra food_id
+            const response = await axiosInstance.delete( 
+                `http://127.0.0.1:8000/favourite_food/delete/${user_id}/${dish.id}`
+            );
+            alert("Hủy yêu thích thành công!");
+            setLikedDishes((prevLiked) => {
+                const newLiked = new Set(prevLiked);
+                newLiked.delete(dish.id); 
+                return newLiked;
+            });
+        } catch (err) {
+            console.error("Không thể xóa", err);
         }
     };
     // Gọi API khi component được mount
@@ -99,18 +118,29 @@ const Home = () => {
         <div>
             <button onClick={handleBack} className="text-blue-500 mb-4"><FaBackward className="icon"/>Quay lại</button>
             <button
-                        onClick={() => saveFavourite(selectedDish)}
-                        className="bg-red-500 text-white px-4 py-2 rounded-lg flex items-center"
-                        disabled={saving}
-                    >
-                        <FaHeart className="mr-2" />
-                        {saving ? "Đang lưu..." : "Lưu yêu thích"}
-                    </button>
+                onClick={() => 
+                    likedDishes.has(selectedDish.id) 
+                    ? removeFavourite(selectedDish) 
+                    : saveFavourite(selectedDish)
+                }
+                className={`${
+                    likedDishes.has(selectedDish.id) ? 'bg-green-500' : 'bg-red-500'
+                } text-white px-4 py-2 rounded-lg flex items-center`}
+                disabled={saving}
+            >
+                <FaHeart className="mr-2" />
+                {saving 
+                    ? "Đang lưu..." 
+                    : (likedDishes.has(selectedDish.id) ? "Đã yêu thích" : "Lưu yêu thích")
+                }
+            </button>
+
+
             <h1 className="text-2xl font-bold mb-4">{selectedDish.title}</h1>
             <img
-                src={selectedDish.image_url || imgdefault}
+                src={selectedDish.image || imgdefault}
                 alt={selectedDish.title}
-                className="w-full h-72 object-cover rounded-md mb-4"
+                className="w-48 h-48 object-cover rounded-md mb-4 mx-auto"
             />
             <p>{selectedDish.description || "Không có mô tả chi tiết."}</p>
             <h3 className="font-medium mt-4">Nguyên liệu:</h3>
@@ -149,14 +179,14 @@ const Home = () => {
                                     onClick={() => handleDishClick(dish)} 
                                 >
                                 <img
-                                    src={dish.image_url || imgdefault}
+                                    src={dish.image || imgdefault}
                                     alt={dish.title}
                                     className="w-32 h-32 object-cover rounded-md mb-2"
                                 />
                                 <h2 className="text-lg font-medium text-center">{dish.title}</h2>
-                                <p className="text-sm text-gray-600 text-center">
+                                {/* <p className="text-sm text-gray-600 text-center">
                                     {dish.description || "Không có mô tả chi tiết."}
-                                </p>
+                                </p> */}
                                 <ul className="text-sm mt-2 text-gray-800">
                                     <h3 className="font-medium">Nguyên liệu:</h3>
                                     {dish.ingredients.map((ingredient, idx) => (

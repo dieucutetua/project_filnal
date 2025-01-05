@@ -4,12 +4,14 @@ import { message } from 'antd'; // Thêm import message từ antd nếu chưa c�
 import { AuthContext } from "../common/AuthContext"; // Thêm import AuthContext
 import "./Sidebar.css";
 import { BiFoodMenu } from "react-icons/bi";
-import { FaCamera, FaHistory, FaHeart, FaUser, FaHome, FaSignOutAlt, FaRegMehRollingEyes } from "react-icons/fa";
+import { FaCamera, FaHistory, FaHeart, FaUser, FaHome, FaSignOutAlt, FaRegMehRollingEyes,FaCog } from "react-icons/fa";
 
 const Sidebar = ({ isGuest }) => {
   const navigate = useNavigate();
   const { isLoggedIn } = useContext(AuthContext);
+  const email = localStorage.getItem("email");
 
+  const isAdmin = email === "admin@email.com";
   const handleNavigate = (to) => {
     if (!isLoggedIn) {
       message.warning("Vui lòng đăng nhập để truy cập trang này.");
@@ -18,12 +20,13 @@ const Sidebar = ({ isGuest }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("user_id");
+    localStorage.removeItem("email");
     navigate("/login");
   };
 
   return (
     <aside className="sidebar">
-      <h2><FaRegMehRollingEyes className="icon" /> HUNGRY EYES</h2>
+      <h2><FaRegMehRollingEyes className="icon" />Con mắt đói</h2>
       <ul>
         <li>
           <NavLink to="/home" className={({ isActive }) => (isActive ? "active" : "")}>
@@ -64,15 +67,17 @@ const Sidebar = ({ isGuest }) => {
                 <span>Cá nhân</span>
               </NavLink>
             </li>
+            {isAdmin && (
+              <li>
+                <NavLink to="/admin" className={({ isActive }) => (isActive ? "active" : "")}>
+                  <FaCog className="icon" />
+                  <span>Admin</span>
+                </NavLink>
+              </li>
+            )}
           </>
         )}
       </ul>
-      {/* Hiển thị nút Đăng xuất chỉ cho người dùng đã đăng nhập */}
-      {!isGuest && (
-        <div className="logout-btn" onClick={handleLogout}>
-          <FaSignOutAlt className="icon" /><span>Đăng xuất</span>
-        </div>
-      )}
     </aside>
   );
 };

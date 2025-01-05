@@ -6,46 +6,33 @@ class FavouriteFood(BaseModel):
     
     food_id: str
     user_id:str
-    name: str
-    source: str
-    preptime: int
-    waittime: int
-    cooktime: int
-    servings: int
-    comments: Optional[str]
-    calories: int
-    fat: int
-    satfat: int
-    carbs: int
-    fiber: int
-    sugar: int
-    protein: int
+    title: str
+    recipe_url: str
+    description : str
+    image : str
     instructions: str
     ingredients: List[str]
-    tags: List[str]
+
 
     class Config:
         orm_mode = True
 class FavouriteFood_Create(BaseModel):
     user_id:str
-    name: str
-    source: str
-    preptime: int
-    waittime: int
-    cooktime: int
-    servings: int
-    comments: Optional[str]
-    calories: int
-    fat: int
-    satfat: int
-    carbs: int
-    fiber: int
-    sugar: int
-    protein: int
+    food_id: str
+    title: str
+    recipe_url: str
+    description : str
+    image : str
     instructions: str
     ingredients: List[str]
-    tags: List[str]
 
+
+    class Config:
+        orm_mode = True
+        
+class CheckFavouriteRequest(BaseModel):
+    user_id: str
+    food_id: str
     class Config:
         orm_mode = True
         

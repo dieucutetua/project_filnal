@@ -56,9 +56,9 @@ const FavouriteFood = () => {
                 ) : (
                     foods.map((food, index) => (
                         <div key={index} className="food-item">
-                            <h4>{food.name}</h4>
+                            <h4>{food.title}</h4>
                             <img
-                                src={ imgdefault}
+                                src={ food.image|| imgdefault}
                                 className="w-32 h-32 object-cover rounded-md mb-2"
                             />
                             <button className="select-button" onClick={() => handleShowModal(food)}>Xem chi tiết</button>
@@ -71,7 +71,7 @@ const FavouriteFood = () => {
             {/* Modal hiển thị chi tiết */}
             {selectedFood && (
                 <Modal
-                    title={`Chi tiết món: ${selectedFood.name}`}
+                    title={`Chi tiết món: ${selectedFood.title}`}
                     visible={isModalVisible}
                     onCancel={handleCloseModal}
                     footer={null}
@@ -79,7 +79,7 @@ const FavouriteFood = () => {
                     bodyStyle={{ maxHeight: "70vh", overflowY: "auto" }}
                 >
                     <div className="food-details">
-                        <p><strong>Tên món:</strong> {selectedFood.name}</p>
+                        <p><strong>Tên món:</strong> {selectedFood.title}</p>
                         <p><strong>Mô tả:</strong> {selectedFood.description || "Không có mô tả."}</p>
                         <p><strong>Nguyên liệu:</strong> {selectedFood.ingredients.join(", ")}</p>
                         <p><strong>Hướng dẫn:</strong> {selectedFood.instructions || "Không có hướng dẫn."}</p>
