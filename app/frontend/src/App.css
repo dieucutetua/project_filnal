@@ -8,7 +8,7 @@ html,
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: Arial, sans-serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .dashboard {
@@ -36,7 +36,7 @@ html,
 }
 
 .sidebar li {
-  margin: 10px 0;
+  margin: 0 0;
   cursor: pointer;
   padding: 10px;
   border-radius: 5px;
@@ -111,59 +111,36 @@ html,
 /* histories */
 .image-list {
   display: flex;
-  /* Hiển thị ảnh theo hàng ngang */
   flex-wrap: wrap;
-  /* Nếu không đủ chỗ, các ảnh sẽ xuống hàng */
   gap: 16px;
-  /* Khoảng cách giữa các ảnh */
   padding: 16px;
-  /* Khoảng cách bên trong danh sách */
   justify-content: center;
-  /* Canh giữa danh sách ảnh */
   background-color: #f9f9f9;
-  /* Màu nền nhẹ */
   border-radius: 8px;
-  /* Bo góc cho danh sách */
 }
 
 .image-item {
   display: flex;
   flex-direction: column;
-  /* Ảnh và thông tin theo chiều dọc */
   align-items: center;
-  /* Canh giữa nội dung bên trong */
   background-color: #fff;
-  /* Nền trắng cho từng ảnh */
   padding: 12px;
-  /* Khoảng cách bên trong mỗi ảnh */
   border: 1px solid #ddd;
-  /* Viền mờ nhẹ */
   border-radius: 8px;
-  /* Bo góc từng ảnh */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* Đổ bóng nhẹ */
   max-width: 200px;
-  /* Đảm bảo kích thước cố định cho từng mục */
 }
 
 .image-item img {
   width: 100%;
-  /* Ảnh chiếm toàn bộ chiều rộng */
   border-radius: 8px;
-  /* Bo góc ảnh */
   object-fit: cover;
-  /* Ảnh luôn vừa khít container */
   margin-bottom: 8px;
-  /* Khoảng cách giữa ảnh và text */
 }
 
 .image-item p {
   font-size: 14px;
-  /* Kích thước chữ nhỏ */
   color: #333;
-  /* Màu chữ tối */
   margin: 4px 0;
-  /* Khoảng cách giữa các đoạn văn */
   text-align: center;
-  /* Canh giữa nội dung văn bản */
 }
