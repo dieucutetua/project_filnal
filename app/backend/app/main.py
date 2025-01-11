@@ -27,7 +27,6 @@ app.add_middleware(
 )
 
 
-# Kết nối các router
 app.include_router(user.router, prefix="/users", tags=["users"])
 app.include_router(admin.router,prefix="/admin", tags=["admin"])
 app.include_router(food.router, prefix="/food", tags=["food"])

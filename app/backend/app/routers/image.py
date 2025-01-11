@@ -16,11 +16,6 @@ import os
 
 router = APIRouter()
 
-
-
-
-
-
 @router.get("/user/{user_id}", response_model=List[Image_DB])
 async def get_images_by_user(user_id: str):
 

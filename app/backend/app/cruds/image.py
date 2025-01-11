@@ -1,4 +1,4 @@
-# crud.py
+
 from passlib.context import CryptContext
 from database import users_collection,images_collection,recog_collection
 from fastapi import HTTPException
@@ -15,11 +15,10 @@ import os
 UPLOAD_FOLDER = "path/to/your/upload/folder"
 
 async def save_file(file, upload_folder):
-    # Đọc dữ liệu từ file upload
     image_data = await file.read()
     image_stream = io.BytesIO(image_data)
 
-    # Kiểm tra nếu tệp là ảnh hợp lệ
+    
     if not imghdr.what(image_stream):
         raise ValueError(f"{file.filename} is not a valid image file.")
 
@@ -84,12 +83,11 @@ def process_and_detect(image_path, model, output_folder):
     Returns:
         tuple: (danh sách tên đối tượng, đường dẫn đến ảnh kết quả)
     """
-    # Đọc ảnh bằng OpenCV
+
     image = cv2.imread(image_path)
     if image is None:
         raise ValueError("Hình ảnh không hợp lệ hoặc không thể đọc.")
 
-    # Nhận diện bằng YOLO
     results = model(image_path)
     names = []
     
@@ -101,21 +99,21 @@ def process_and_detect(image_path, model, output_folder):
             confidence = float(detection.conf)  # Chuyển tensor thành float
             x1, y1, x2, y2 = map(int, detection.xyxy[0])  # Tọa độ bounding box
 
-            # Vẽ bounding box lên ảnh
+            # bounding box 
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)  # Màu xanh lá
             cv2.putText(image, f"{class_name} {confidence:.2f}", 
                         (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
             
             names.append(class_name)
 
-    # Lưu ảnh kết quả
+
     result_image_path = os.path.join(output_folder, f"result_{os.path.basename(image_path)}")
     cv2.imwrite(result_image_path, image)
 
-    # Loại bỏ trùng lặp trong danh sách tên
+
     english_list = list(set(names))
 
-    # Dịch tên sang tiếng Việt
+
     translator = GoogleTranslator(source="en", target="vi")
     vietnamese_list = [translator.translate(word) for word in english_list]
 

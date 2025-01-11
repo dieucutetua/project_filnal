@@ -49,7 +49,7 @@ async def update_password(request: UpdatePasswordRequest):
         user_id = ObjectId(request.user_id)
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid ObjectId format")
-    # Tìm người dùng trong MongoDB theo user_id
+
     user = await users_collection.find_one({"_id": user_id})
     
     if not user:

@@ -37,7 +37,6 @@ async def upload_image(files: list[UploadFile] = File(...), user_id: str = Form(
     result_image_paths = []
 
     for file in files:
-        # Lưu tạm thời file upload
         image_data = await file.read()
         image_stream = io.BytesIO(image_data)
         if not imghdr.what(image_stream):
@@ -48,14 +47,12 @@ async def upload_image(files: list[UploadFile] = File(...), user_id: str = Form(
         image.save(file_path)
         upload_images_file.append(file.filename)
 
-        # Gọi hàm xử lý
         detected_items, result_image_path = process_and_detect(
             image_path=file_path, model=model, output_folder=time_folder
         )
         vietnamese_list.extend(detected_items)
         result_image_paths.append(result_image_path)
 
-        # Lưu vào cơ sở dữ liệu
         await save_image_info_to_db(file.filename, user_id, file_path, detected_items)
         await save_recog_to_db(user_id, detected_items, datetime.now())
 

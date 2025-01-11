@@ -8,14 +8,13 @@ from deep_translator import GoogleTranslator
 from database import images_collection
 from dotenv import load_dotenv
 
-# Đặt API key của bạn
-# Tải biến môi trường từ file .env
+
 load_dotenv()
 
-# Thiết lập khóa API
+
 openai.api_key = os.getenv("OPENAI_API_KEY")
 router = APIRouter()
-# Model cho input
+
 class IngredientsRequest(BaseModel):
     ingredients: list[str] 
 

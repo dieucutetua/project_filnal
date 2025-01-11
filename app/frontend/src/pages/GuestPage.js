@@ -101,52 +101,75 @@ const GuestPage = () => {
         <Header />
         <div className="p-8 w-full overflow-auto">
           {selectedDish ? (
-            <div>
-              <button onClick={handleBack} className="text-blue-500 mb-4">
-                <FaBackward className="icon" /> Quay lại
-              </button>
-              <button
-                onClick={() => saveFavourite(selectedDish)}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg flex items-center"
-                disabled={saving}
-              >
-                <FaHeart className="mr-2" />
-                {saving ? "Đang lưu..." : "Lưu yêu thích"}
-              </button>
-              {saveError && <p className="text-red-500">{saveError}</p>}
-              <h1 className="text-2xl font-bold mb-4">{selectedDish.title}</h1>
-              <img
-                src={selectedDish.image_url || imgdefault}
-                alt={selectedDish.title}
-                className="w-full h-72 object-contain rounded-md mb-4"
-              />
-              <p>{selectedDish.description || "Không có mô tả chi tiết."}</p>
-              <h3 className="font-medium mt-4">Nguyên liệu:</h3>
-              <ul className="list-disc pl-6">
-                {selectedDish.ingredients.map((ingredient, idx) => (
-                  <li key={idx}>{ingredient}</li>
-                ))}
-              </ul>
-
-              {selectedDish.steps && (
-                <div>
-                  <h3 className="font-medium mt-4">Các bước:</h3>
-                  <ol className="list-decimal pl-6">
-                    {selectedDish.steps
-                      .split("\r\n")
-                      .filter((step) => step.trim() !== "")
-                      .map((step, idx) => (
-                        <li key={idx} className="ml-4">
-                          {step}
-                        </li>
-                      ))}
-                  </ol>
+            <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-lg">
+              <div>
+                <div className="flex justify-between items-center mb-4">
+                  <button onClick={handleBack} className="text-blue-500 mb-4">
+                    <FaBackward className="icon" /> Quay lại
+                  </button>
+                  <button
+                    onClick={() => saveFavourite(selectedDish)}
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg flex items-center"
+                    disabled={saving}
+                  >
+                    <FaHeart className="mr-2" />
+                    {saving ? "Đang lưu..." : "Lưu yêu thích"}
+                  </button>
                 </div>
-              )}
+
+                {saveError && <p className="text-red-500">{saveError}</p>}
+                <h1 className="text-4xl font-semibold text-gray-800 mt-6">
+                  {selectedDish.title}
+                </h1>
+
+                <img
+                  src={selectedDish.image || imgdefault}
+                  alt={selectedDish.title}
+                  className="w-64 h-auto object-contain rounded-lg mt-4 mb-6 mx-auto"
+                />
+
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      selectedDish.description || "Không có mô tả chi tiết.",
+                  }}
+                  className="text-lg text-gray-700 mb-6"
+                />
+
+                <h3 className="text-2xl font-medium text-gray-800 mt-6">
+                  Nguyên liệu:
+                </h3>
+                <ul className="list-disc pl-6 space-y-2 text-lg text-gray-700">
+                  {selectedDish.ingredients.map((ingredient, idx) => (
+                    <li key={idx}>{ingredient}</li>
+                  ))}
+                </ul>
+
+                {selectedDish.steps && (
+                  <div>
+                    <h3 className="text-2xl font-medium text-gray-800 mt-6">
+                      Các bước:
+                    </h3>
+                    <ol className="list-decimal pl-6 space-y-2 text-lg text-gray-700">
+                      {selectedDish.steps
+                        .split("\r\n")
+                        .filter((step) => step.trim() !== "")
+                        .map((step, idx) => (
+                          <li
+                            key={idx}
+                            className="ml-4"
+                            dangerouslySetInnerHTML={{ __html: step }}
+                          />
+                        ))}
+                    </ol>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <>
               <h1 className="text-2xl font-bold mb-4">Món ăn ngẫu nhiên</h1>
+
               {loading && <p>Đang tải dữ liệu...</p>}
               {error && <p className="text-red-500">{error}</p>}
 
@@ -163,17 +186,17 @@ const GuestPage = () => {
                         onClick={() => handleDishClick(dish)}
                       >
                         <img
-                          src={dish.image_url || imgdefault}
+                          src={dish.image || imgdefault}
                           alt={dish.title}
                           className="w-32 h-32 object-contain rounded-md mb-2"
                         />
                         <h2 className="text-lg font-medium text-center">
                           {dish.title}
                         </h2>
-                        <p className="text-sm text-gray-600 text-center">
+                        {/* <p className="text-sm text-gray-600 text-center">
                           {dish.description || "Không có mô tả chi tiết."}
-                        </p>
-                        <ul className="text-sm mt-2 text-gray-800">
+                      </p> */}
+                        <ul className="text-sm mt-2 text-gray-800 max-h-40 overflow-y-auto">
                           <h3 className="font-medium">Nguyên liệu:</h3>
                           {dish.ingredients.map((ingredient, idx) => (
                             <li key={idx} className="list-disc ml-4">

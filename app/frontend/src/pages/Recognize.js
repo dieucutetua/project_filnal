@@ -114,7 +114,7 @@ const Recognize = () => {
   return (
     <div className="w-full h-full p-6">
       <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
-        Nhận diện
+        Trang nhận diện
       </h1>
       <div className="p-8 flex flex-col gap-6 mx-auto bg-white rounded-lg shadow-lg justify-center w-full">
         <h1 className="text-xl font-medium text-gray-800 w-full flex justify-center">
@@ -171,7 +171,7 @@ const Recognize = () => {
               className="transition-all duration-300 ease-in-out transform hover:scale-105 disabled:bg-gray-400"
               icon={<AiOutlineUpload />}
             >
-              {isUploading ? "Uploading..." : "Thêm ảnh"}
+              {isUploading ? "Uploading..." : "Upload ảnh"}
             </Button>
           </div>
         </div>

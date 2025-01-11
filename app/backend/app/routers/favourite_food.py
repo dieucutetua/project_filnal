@@ -65,5 +65,5 @@ async def find_food_by_id(user_id: str):
     food_cursor = favourite_food.find({"user_id": user_id})
     foods = []
     async for food in food_cursor:
-        foods.append(FavouriteFood(**food))  # Đảm bảo dữ liệu phù hợp với model
+        foods.append(FavouriteFood(**food)) 
     return foods
