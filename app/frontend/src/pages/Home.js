@@ -14,17 +14,16 @@ const Home = () => {
   const [likedDishes, setLikedDishes] = useState(new Set());
   const user_id = localStorage.getItem("user_id");
 
-  // Hàm để gọi API và lấy tất cả món ăn
   const getAllDishes = async () => {
     setLoading(true);
-    setError(null); // Xoá lỗi trước khi bắt đầu gọi API
+    setError(null);
     try {
-      const response = await axiosInstance.get("/search/get_all_recipes"); // Thay "/search/getall" bằng đường dẫn API tương ứng của bạn
+      const response = await axiosInstance.get("/search/get_all_recipes");
       if (response.data && response.data.recipes) {
-        setDishes(response.data.recipes); // Lưu danh sách món ăn vào state
-        // Chọn 3 món ăn ngẫu nhiên từ danh sách món ăn
+        setDishes(response.data.recipes);
+
         const randomDishes = getRandomDishes(response.data.recipes, 10);
-        setRandomDishes(randomDishes); // Lưu các món ăn ngẫu nhiên
+        setRandomDishes(randomDishes);
       } else {
         setDishes([]);
         setError("Không có món ăn nào.");
@@ -33,18 +32,16 @@ const Home = () => {
       console.error("Error fetching dishes:", err);
       setError("Không thể tải danh sách món ăn. Vui lòng thử lại sau.");
     } finally {
-      setLoading(false); // Đảm bảo trạng thái tải được tắt khi đã nhận được dữ liệu
+      setLoading(false);
     }
   };
 
-  // Hàm để chọn ra n món ăn ngẫu nhiên
   const getRandomDishes = (dishes, n) => {
     const randomDishes = [];
     while (randomDishes.length < n) {
       const randomIndex = Math.floor(Math.random() * dishes.length);
       const randomDish = dishes[randomIndex];
       if (!randomDishes.includes(randomDish)) {
-        // Đảm bảo không trùng món ăn
         randomDishes.push(randomDish);
       }
     }
@@ -70,11 +67,9 @@ const Home = () => {
     } catch (err) {
       console.error("Error saving favourite dish:", err);
       if (err.response) {
-        // This will capture server errors (status codes 4xx, 5xx)
         console.error("Response error data:", err.response.data);
         console.error("Response error status:", err.response.status);
       } else {
-        // This will capture network or other errors
         console.error("Network error or unexpected error:", err.message);
       }
       setSaveError("Không thể lưu món ăn yêu thích. Vui lòng thử lại.");
@@ -86,7 +81,7 @@ const Home = () => {
     try {
       console.log("User ID:", user_id);
 
-      console.log("Food ID:", dish.id); // In ra food_id
+      console.log("Food ID:", dish.id);
       const response = await axiosInstance.delete(
         `http://127.0.0.1:8000/favourite_food/delete/${user_id}/${dish.id}`
       );
@@ -100,7 +95,6 @@ const Home = () => {
       console.error("Không thể xóa", err);
     }
   };
-  // Gọi API khi component được mount
   useEffect(() => {
     getAllDishes();
   }, []);

@@ -72,18 +72,6 @@ async def delete_image_from_db(image_id: str, user_id : str):
 
 
 def process_and_detect(image_path, model, output_folder):
-    """
-    Hàm xử lý hình ảnh: nhận diện, vẽ bounding box, và lưu ảnh kết quả.
-
-    Args:
-        image_path (str): Đường dẫn đến hình ảnh gốc.
-        model (YOLO): Mô hình YOLO đã được load.
-        output_folder (str): Thư mục lưu ảnh kết quả.
-
-    Returns:
-        tuple: (danh sách tên đối tượng, đường dẫn đến ảnh kết quả)
-    """
-
     image = cv2.imread(image_path)
     if image is None:
         raise ValueError("Hình ảnh không hợp lệ hoặc không thể đọc.")
@@ -93,14 +81,14 @@ def process_and_detect(image_path, model, output_folder):
     
     for result in results:
         for detection in result.boxes:
-            # Lấy thông tin từ bounding box
+       
             class_id = int(detection.cls)
             class_name = model.names[class_id]
-            confidence = float(detection.conf)  # Chuyển tensor thành float
-            x1, y1, x2, y2 = map(int, detection.xyxy[0])  # Tọa độ bounding box
+            confidence = float(detection.conf)  # tensor  float
+            x1, y1, x2, y2 = map(int, detection.xyxy[0])  
 
             # bounding box 
-            cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)  # Màu xanh lá
+            cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)  
             cv2.putText(image, f"{class_name} {confidence:.2f}", 
                         (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
             

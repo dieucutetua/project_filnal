@@ -7,23 +7,6 @@ from cruds.search import find_recipes_by_ingredients,get_all_recipes
 
 router = APIRouter()
 
-
-
-# async def detect_and_translate_to_english(ingredients: list) -> list:
-#     translated_ingredients = []
-#     for ingredient in ingredients:
-
-#         if ingredient.isascii():
-#             translated_ingredients.append(ingredient)
-#         else:
-#             try:
-#                 translated = GoogleTranslator(source="auto", target="en").translate(ingredient)
-#                 translated_ingredients.append(translated)
-#             except Exception as e:
-#                 print(f"Error translating {ingredient}: {e}")
-#                 translated_ingredients.append(ingredient) 
-#     return translated_ingredients
-
 @router.post("/find_recipes")
 async def get_recipes(input_ingredients: str):
     if not input_ingredients:

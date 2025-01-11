@@ -48,19 +48,14 @@ async def delete_image(user_id: str, image_id: str):
         if not image:
             raise HTTPException(status_code=404, detail="Image not found for this user.")
         
-
         image_path = image["image_path"]
         
-
         if os.path.exists(image_path):
             os.remove(image_path)
         else:
             raise HTTPException(status_code=404, detail="Image file not found in the system")
-        
 
         delete_result = await images_collection.delete_one({"user_id": user_id, "image_id": image_id})
-        
-
         
         return {"message": "Image deleted successfully"}
     
@@ -76,7 +71,6 @@ async def get_image(image_id: str):
         if not image:
             raise HTTPException(status_code=404, detail="Image not found")
         
-
         image_path = image['image_path']
         
   
@@ -104,7 +98,6 @@ async def get_image_by_id(user_id: str, image_id: str):
         
         if not image:
             raise HTTPException(status_code=404, detail="Image not found for this user.")
-        
     
         image_path = image["image_path"]
         

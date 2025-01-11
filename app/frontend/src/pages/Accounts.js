@@ -48,8 +48,8 @@ const Accounts = () => {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Quản lí thông tin người dùng</h1>
-      <h1 className="mb-3">Tài khoản {email}</h1>
+      <h1 className="text-2xl font-bold mb-4">Thay đổi mật khẩu ! </h1>
+      {/* <h1 className="mb-3">Tài khoản {email}</h1> */}
 
       <form onSubmit={handlePasswordChange} className="mb-4">
         <div className="mb-2">
@@ -58,7 +58,7 @@ const Accounts = () => {
             type="password"
             value={old_password}
             onChange={(e) => setOldPassword(e.target.value)}
-            className="border p-2 w-full"
+            className="border p-2 "
             required
           />
         </div>
@@ -68,7 +68,7 @@ const Accounts = () => {
             type="password"
             value={new_password}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="border p-2 w-full"
+            className="border p-2 "
             required
           />
         </div>
@@ -78,7 +78,7 @@ const Accounts = () => {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="border p-2 w-full"
+            className="border p-2 "
             required
           />
         </div>
