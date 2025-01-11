@@ -1,20 +1,28 @@
 import React from "react";
+import { Button } from "antd";
 import { Link } from "react-router-dom";
-import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
-import "./Header.css"; 
 
 const Header = () => {
   return (
-    <header className="header bg-blue-600 p-4 flex justify-between items-center">
-      <h1 className="text-white text-2xl font-bold">HUNGRY EYES</h1>
-      <div className="auth-buttons">
-        <Link to="/login" className="auth-btn login-btn bg-blue-800 text-white py-2 px-4 rounded-lg flex items-center">
-          <FaSignInAlt className="mr-2" />
-          Đăng nhập
+    <header className="bg-white shadow-md border-b px-4 py-3 flex justify-between items-center top-0 sticky">
+      <div className="ml-auto flex space-x-4">
+        <Link to="/login">
+          <Button
+            type="primary"
+            size="large"
+            className="bg-blue-600 text-white hover:bg-blue-700"
+          >
+            Đăng Nhập
+          </Button>
         </Link>
-        <Link to="/register" className="auth-btn register-btn bg-green-600 text-white py-2 px-4 rounded-lg flex items-center ml-4">
-          <FaUserPlus className="mr-2" />
-          Đăng ký
+        <Link to="/register">
+          <Button
+            type="default"
+            size="large"
+            className="bg-white text-blue-600 hover:bg-gray-100"
+          >
+            Đăng Ký
+          </Button>
         </Link>
       </div>
     </header>
@@ -22,10 +30,3 @@ const Header = () => {
 };
 
 export default Header;
-{/* <div className="flex justify-between w-full mb-4">
-<div className="text-2xl font-semibold text-gray-800">MEKONGAI</div>
-<div className="flex space-x-4">
-  <button className="text-sm text-blue-600">Login</button>
-  <button className="text-sm text-blue-600">Sign Up</button>
-</div>
-</div> */}

@@ -21,3 +21,9 @@ class User(BaseModel):
     email: EmailStr  = "ltd@email.com"
     created_at: datetime
     updated_at: datetime
+from pydantic import BaseModel
+
+class UpdatePasswordRequest(BaseModel):
+    user_id: str  
+    old_password: str
+    new_password: str

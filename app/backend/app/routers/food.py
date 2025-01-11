@@ -22,7 +22,7 @@ router = APIRouter()
 UPLOAD_FOLDER = "uploads/images"
 
 # model = YOLO('D:/DATN/Source_project/app/backend/models/best_model.pt') 
-model = YOLO("C:/Users/ADMIN/Desktop/fe/project_filnal/app/backend/models/best_12.pt")  # Hoặc "last.pt" nếu bạn muốn dùng trọng số từ epoch cuối
+model = YOLO("C:/Users/ADMIN/Desktop/fe/project_filnal/app/backend/models/best_19.pt")  # Hoặc "last.pt" nếu bạn muốn dùng trọng số từ epoch cuối
 # model.eval()
 
 @router.post("/")

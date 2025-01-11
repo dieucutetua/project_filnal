@@ -211,3 +211,11 @@ code {
 .zoom-out-btn:hover {
   background-color: #4936f4;
 }
+
+.pagination-controls button:disabled {
+  @apply !bg-slate-700;
+}
+
+.pagination-controls button {
+  @apply !bg-sky-500;
+}

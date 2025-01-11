@@ -5,8 +5,8 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { message } from "antd";
 import axiosInstance from "../utils/axiosInstance";
 import { AuthContext } from "../common/AuthContext";
-import '../css/Login.css'
-import bgr_image from "../components/assets/bgr_image.jpg"
+import "../css/Login.css";
+import bgr_image from "../components/assets/bgr_image.jpg";
 
 const LoginForm = () => {
   const sizeIcon = 25;
@@ -33,7 +33,7 @@ const LoginForm = () => {
           email,
           password,
         });
-  
+
         if (response.status === 200) {
           if (response.data.user_id) {
             localStorage.setItem("user_id", response.data.user_id);
@@ -41,7 +41,7 @@ const LoginForm = () => {
           if (response.data.email) {
             localStorage.setItem("email", response.data.email);
           }
-  
+
           login(response.data.email, response.data.email === "admin@email.com"); // Truyền thông tin người dùng và kiểm tra admin
           message.success("Login success!");
           navigate("/home");
@@ -59,50 +59,51 @@ const LoginForm = () => {
   };
 
   return (
-      <div className="container-login-form"
+    <div
+      className="container-login-form"
       style={{
         backgroundImage: `url(${bgr_image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        height: "100vh"
-      }}>
-    <div className="container-login">
-      <div className="header">
-        <div className="text">Login</div>
-        <div className="underline"></div>
-      </div>
-      <div className="inputs">
-        <div className="input">
-          <MdEmail size={sizeIcon} />
-          <input
-            type="email"
-            placeholder="Email Id"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        height: "100vh",
+      }}
+    >
+      <div className="container-login">
+        <div className="header">
+          <div className="text">Login</div>
+          <div className="underline"></div>
         </div>
-        <div className="input">
-          <RiLockPasswordLine size={sizeIcon} />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <div className="inputs">
+          <div className="input">
+            <MdEmail size={sizeIcon} />
+            <input
+              type="email"
+              placeholder="Email Id"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="input">
+            <RiLockPasswordLine size={sizeIcon} />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
         </div>
-      </div>
-      <button className="submit" onClick={handleLogin}>
-        Login
-      </button>
-      <div className="register-text">
-        <p>You don't have an account yet?</p>
-        <a className="register-link" onClick={handleClickToRegister}>
-          Register
-        </a>
+        <button className="submit" onClick={handleLogin}>
+          Login
+        </button>
+        <div className="register-text">
+          <p>You don't have an account yet?</p>
+          <a className="register-link" onClick={handleClickToRegister}>
+            Register
+          </a>
+        </div>
       </div>
     </div>
-    </div>
-
   );
 };
 

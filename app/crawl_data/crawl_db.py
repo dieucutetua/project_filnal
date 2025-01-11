@@ -95,6 +95,6 @@ def crawl_recipes(ingredients, number=100):
 # Chạy chương trình
 if __name__ == "__main__":
     # Crawl dữ liệu món ăn từ API
-    ingredients = "pork, eggs"
+    ingredients = "egg"
     crawl_recipes(ingredients, number=100)
     print("Dữ liệu món ăn đã được lưu vào MongoDB!")
